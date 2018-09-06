@@ -229,8 +229,7 @@ function mutation(arr) {
     // is a subset of letters from the string in the first element of the array
     // (case insensitive).
 
-    const first = new Set(arr[0].toLowerCase());
-    const second = new Set(arr[1].toLowerCase());
+    const [first, second] = arr.map(str => new Set(str.toLowerCase()));
 
     let elem;
 
