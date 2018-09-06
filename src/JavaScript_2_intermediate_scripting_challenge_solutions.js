@@ -120,7 +120,7 @@ function destroyer(arr) {
     'use strict';
 
     // Additional argument(s)
-    const args = Array.prototype.slice.call(arguments, 1);
+    const [, ...args] = arguments;
 
     // Do not mutate the original array
     for (const arg of args) {
