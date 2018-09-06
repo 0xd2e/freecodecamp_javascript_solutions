@@ -70,7 +70,8 @@ function updateInventory(curInv, newInv) {
         }
     }
 
-    return curInv.sort((a, b) => a[1].localeCompare(b[1]));
+    // eslint-disable-next-line no-confusing-arrow
+    return curInv.sort((a, b) => a[1] > b[1] ? 1 : -1);
 }
 
 
