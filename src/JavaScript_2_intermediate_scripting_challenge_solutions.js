@@ -360,10 +360,8 @@ function sumPrimes(int) {
 
     sieve.fill(1);
 
-    let i;
-    let j;
-    let k;
-    let kk;
+    // eslint-disable-next-line one-var, one-var-declaration-per-line
+    let i, j, k, kk;
 
     for (i = 1; i < end; i++) {
         if (sieve[i]) {
@@ -381,10 +379,15 @@ function sumPrimes(int) {
         }
     }
 
-    return sieve
-        .map((num, pos) => num && pos) // change non-zero elements to their corresponding indexes
-        .filter(num => num) // filter out zeros
-        .reduce((sum, num) => sum + ((3 * num + 1) | 1), 5);
+    let sum = 5; // 2 + 3
+
+    for (i = 1; i < len; i++) {
+        if (sieve[i] > 0) {
+            sum += ((3 * i + 1) | 1);
+        }
+    }
+
+    return sum;
 }
 
 
