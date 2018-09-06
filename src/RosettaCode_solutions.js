@@ -58,8 +58,7 @@ function getFinalOpenedDoors(numDoors) {
 function accumulator(sum) {
     'use strict';
 
-    // eslint-disable-next-line func-names
-    return function (num) {
+    return (num) => {
         sum += num;
         return sum;
     };
