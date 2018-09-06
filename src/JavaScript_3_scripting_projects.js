@@ -76,10 +76,8 @@ function convertToRoman(num) {
             romanNums.push(romanSymbols[base].repeat(num));
             break;
         case 4:
-            romanNums.push(romanSymbols[base] + romanSymbols[base * 5]);
-            break;
         case 5:
-            romanNums.push(romanSymbols[base * 5]);
+            romanNums.push(romanSymbols[base].repeat(5 - num) + romanSymbols[base * 5]);
             break;
         case 6:
         case 7:
