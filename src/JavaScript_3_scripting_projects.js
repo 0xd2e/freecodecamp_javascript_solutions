@@ -24,7 +24,7 @@ function palindrome(str) {
     // Return true if the given string is a palindrome, false otherwise.
 
     // Clean up input string and make an array of letters and digits only
-    const strCleaned = str.toLowerCase().split('').filter(char => /^[a-z0-9]$/.test(char));
+    const strCleaned = str.toLowerCase().replace(/[^a-z0-9]/g, '').split('');
     const leftToRight = strCleaned.join('');
     const rightToLeft = strCleaned.reverse().join('');
 
