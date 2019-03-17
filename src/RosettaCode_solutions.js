@@ -233,6 +233,7 @@ function entropy(str) {
 function factorial(num, out) {
     'use strict';
 
+    // Assumption: num > out
     out = !out ? 1 : out + 1;
     const stop = out;
 
