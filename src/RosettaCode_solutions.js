@@ -16,8 +16,17 @@
  * Circles of given radius through two points
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/circles-of-given-radius-through-two-points/
  *
+ * Date format
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/date-format/
+ *
+ * Day of the week
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/day-of-the-week/
+ *
  * Entropy
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/entropy/
+ *
+ * Evaluate binomial coefficients
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/evaluate-binomial-coefficients/
  *
  * Fibonacci sequence
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/fibonacci-sequence/
@@ -153,6 +162,53 @@ function getCircles(...args) {
 }
 
 
+// Date format
+/* exported getDateFormats */
+function getDateFormats() {
+    'use strict';
+
+    const now = new Date();
+    const loc = 'en-US';
+    const short = [
+        now.toLocaleDateString(loc, { year: 'numeric' }),
+        now.toLocaleDateString(loc, { month: 'numeric' }),
+        now.toLocaleDateString(loc, { day: 'numeric' })
+    ];
+    const long = {
+        weekday: now.toLocaleDateString(loc, { weekday: 'long' }),
+        month: now.toLocaleDateString(loc, { month: 'long' }),
+        day: now.toLocaleDateString(loc, { day: 'numeric' }),
+        year: now.toLocaleDateString(loc, { year: 'numeric' })
+    };
+
+    return [
+        short.join('-'),
+        `${long.weekday}, ${long.month} ${long.day}, ${long.year}`
+    ];
+}
+
+
+// Day of the week
+/* exported findXmasSunday */
+function findXmasSunday(start, end) {
+    'use strict';
+
+    const date = new Date(start, 11, 25);
+    const xmasSundayYears = [];
+
+    for (start; start <= end; start++) {
+        date.setFullYear(start);
+
+        // Check if the 25th of December is a Sunday
+        if (date.getDay() === 0) {
+            xmasSundayYears.push(start);
+        }
+    }
+
+    return xmasSundayYears;
+}
+
+
 // Entropy
 /* exported entropy */
 function entropy(str) {
@@ -170,6 +226,46 @@ function entropy(str) {
     return -1 * Object.values(charCount)
         .map(num => num / numChars) // calculate probabilities
         .reduce((sum, prob) => sum + prob * Math.log2(prob), 0);
+}
+
+
+// Evaluate binomial coefficients
+function factorial(num, out) {
+    'use strict';
+
+    out = !out ? 1 : out + 1;
+    const stop = out;
+
+    for (num; num > stop; num--) {
+        out *= num;
+    }
+
+    return out;
+}
+
+
+/* exported binom */
+function binom(n, k) {
+    'use strict';
+
+    if (k === 0 || k === n) {
+        return 1;
+    }
+
+    if (n < k) {
+        return 0;
+    }
+
+    const diff = n - k;
+
+    if (k === 1 || diff === 1) {
+        return n;
+    }
+
+    const numerator = factorial(n, diff);
+    const denominator = factorial(k);
+
+    return parseInt(numerator / denominator);
 }
 
 
