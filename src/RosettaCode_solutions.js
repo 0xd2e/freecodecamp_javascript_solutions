@@ -33,6 +33,27 @@
  *
  * Gray code
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/gray-code/
+ *
+ * Greatest common divisor
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/greatest-common-divisor/
+ *
+ * Hofstadter Q sequence
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/hofstadter-q-sequence/
+ *
+ * Josephus problem
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/josephus-problem/
+ *
+ * Top rank per group
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/top-rank-per-group/
+ *
+ * Towers of Hanoi
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/towers-of-hanoi/
+ *
+ * Vector cross product
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/vector-cross-product/
+ *
+ * Vector dot product
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/vector-dot-product/
  */
 
 
@@ -307,4 +328,173 @@ function gray(enc, num) {
     }
 
     return parseInt(binaryArr.join(''), radix);
+}
+
+
+// Greatest common divisor
+/* exported gcd */
+function gcd(a, b) {
+    'use strict';
+
+    // Euclidean algorithm - computing the greatest common divisor
+
+    while (b !== 0) {
+        [a, b] = [b, a % b];
+    }
+
+    return a;
+}
+
+
+// Hofstadter Q sequence
+/* exported hofstadterQ */
+const q = [1, 1];
+
+
+function hofstadterQ(n) {
+    'use strict';
+
+    const stop = n;
+
+    for (n = q.length; n < stop; n++) {
+        q.push(q[n - q[n - 1]] + q[n - q[n - 2]]);
+    }
+
+    return q[n - 1];
+}
+
+
+// Josephus problem
+/* exported josephus */
+function josephus(init, kill) {
+    'use strict';
+
+    // Based on: https://en.wikipedia.org/wiki/Josephus_problem#The_general_case
+    // For the positions numbered from 1 to n
+
+    if (init === 1) {
+        return 1;
+    }
+
+    return ((josephus(init - 1, kill) + kill - 1) % init) + 1;
+}
+
+
+// Top rank per group
+/* exported topRankPerGroup */
+function topRankPerGroup(n, data, groupby, rankby) {
+    'use strict';
+
+    if (n < 0) {
+        return undefined;
+    }
+
+    const uniqueGroups = new Set(data.map(item => item[groupby]));
+    const arrangeDesc = (a, b) => b[rankby] - a[rankby];
+    const processedData = [];
+
+    if (uniqueGroups.size === 1) {
+        data = [...data]; // create a shallow copy, do not change the original array
+        data = data.sort(arrangeDesc).slice(0, n);
+        processedData.push(data);
+        return processedData;
+    }
+
+    const sortedGroups = [...uniqueGroups].sort();
+    let group;
+    let items;
+    const selectGroup = item => item[groupby] === group;
+
+    for (group of sortedGroups) {
+        items = data.filter(selectGroup).sort(arrangeDesc).slice(0, n);
+        processedData.push(items);
+    }
+
+    return processedData;
+}
+
+
+// Towers of Hanoi
+/* exported towerOfHanoi */
+function towerOfHanoi(num, source, target, auxiliary) {
+    'use strict';
+
+    const moves = [];
+
+    // This algorithm is from: https://en.wikipedia.org/wiki/Tower_of_Hanoi#Recursive_implementation
+    const makeMove = (n, a, b, c) => {
+        if (n > 0) {
+            makeMove(n - 1, a, c, b);
+            moves.push([a, b]);
+            makeMove(n - 1, c, b, a);
+        }
+    };
+
+    makeMove(num, source, target, auxiliary);
+
+    return moves;
+}
+
+
+// Vector cross product
+/* exported crossProduct */
+function crossProduct() {
+    'use strict';
+
+    if (arguments.length !== 2) {
+        return null;
+    }
+
+    const [v, w] = arguments;
+
+    if (v.length !== 3 || w.length !== 3) {
+        return null;
+    }
+
+    const [vx, vy, vz] = v;
+    const [wx, wy, wz] = w;
+
+    return [
+        vy * wz - vz * wy,
+        vz * wx - vx * wz,
+        vx * wy - vy * wx
+    ];
+}
+
+
+// Vector dot product
+/* exported dotProduct */
+function dotProduct() {
+    'use strict';
+
+    let vectors;
+
+    if (arguments.length === 1) {
+        vectors = [...arguments[0]];
+    } else if (arguments.length > 1) {
+        vectors = [...arguments];
+    } else {
+        return null;
+    }
+
+    if (vectors.length < 2) {
+        return null;
+    }
+
+    const n = vectors[0].length;
+
+    if (n === 0 || vectors.some(vec => vec.length !== n)) {
+        return null;
+    }
+
+    let i = 0;
+    let dot = 0;
+
+    const mul = (prod, vec) => prod * vec[i];
+
+    for (i; i < n; i++) {
+        dot += vectors.reduce(mul, 1);
+    }
+
+    return dot;
 }
