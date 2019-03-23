@@ -16,11 +16,23 @@
  * Circles of given radius through two points
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/circles-of-given-radius-through-two-points/
  *
+ * Comma quibbling
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/comma-quibbling/
+ *
+ * Compare a list of strings
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/compare-a-list-of-strings/
+ *
+ * Convert seconds to compound duration
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/convert-seconds-to-compound-duration
+ *
  * Date format
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/date-format/
  *
  * Day of the week
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/day-of-the-week/
+ *
+ * Element-wise operations
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/element-wise-operations/
  *
  * Entropy
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/entropy/
@@ -183,6 +195,101 @@ function getCircles(...args) {
 }
 
 
+// Comma quibbling
+/* exported quibble */
+function quibble(words) {
+    'use strict';
+
+    switch (words.length) {
+    case 0: return '{}';
+    case 1: return `{${words[0]}}`;
+    // no default
+    }
+
+    const text = words.join(',');
+    const lastCommaPosition = text.lastIndexOf(',');
+
+    return `{${text.slice(0, lastCommaPosition)} and ${words[words.length - 1]}}`;
+}
+
+
+// Compare a list of strings
+/* exported allEqual */
+function allEqual(arr) {
+    'use strict';
+
+    switch (arr.length) {
+    case 0: return true;
+    case 1: return true;
+    // no default
+    }
+
+    const uniqueValues = new Set(arr);
+    return uniqueValues.size === 1;
+}
+
+
+/* exported azSorted */
+function azSorted(arr) {
+    'use strict';
+
+    switch (arr.length) {
+    case 0: return true;
+    case 1: return true;
+    // no default
+    }
+
+    let prevVal = '';
+    let currVal;
+
+    for (currVal of arr) {
+        if (currVal <= prevVal) {
+            return false;
+        }
+        prevVal = currVal;
+    }
+
+    return true;
+}
+
+
+// Convert seconds to compound duration
+/* exported convertSeconds */
+function convertSeconds(seconds) {
+    'use strict';
+
+    const units = [
+        'wk',
+        'd',
+        'hr',
+        'min'
+    ];
+
+    const conversionFactors = [
+        604800, // seconds in a week
+        86400, // seconds in a day
+        3600, // seconds in an hour
+        60 // seconds in a minute
+    ];
+
+    const compoundDuration = [];
+
+    conversionFactors.forEach((cf, i) => {
+        const qty = Math.floor(seconds / cf);
+        if (qty > 0) {
+            seconds -= qty * cf;
+            compoundDuration.push(`${qty} ${units[i]}`);
+        }
+    });
+
+    if (seconds > 0) {
+        compoundDuration.push(`${seconds} sec`);
+    }
+
+    return compoundDuration.join(', ');
+}
+
+
 // Date format
 /* exported getDateFormats */
 function getDateFormats() {
@@ -227,6 +334,36 @@ function findXmasSunday(start, end) {
     }
 
     return xmasSundayYears;
+}
+
+
+// Element-wise operations
+/* exported operation */
+function operation(op, arr1, arr2) {
+    'use strict';
+
+    // eslint-disable-next-line max-len
+    const checkMatrixes = (m1, m2) => m1.length === m2.length && m1.every((vec, i) => vec.length === m2[i].length);
+    const num = 2;
+
+    const validOperations = {
+        m_add: (vec, i) => vec.map((val, j) => val + arr2[i][j]),
+        m_sub: (vec, i) => vec.map((val, j) => val - arr2[i][j]),
+        m_mult: (vec, i) => vec.map((val, j) => val * arr2[i][j]),
+        m_div: (vec, i) => vec.map((val, j) => val / arr2[i][j]),
+        m_exp: (vec, i) => vec.map((val, j) => val ** arr2[i][j]),
+        s_add: vec => vec.map(val => val + num),
+        s_sub: vec => vec.map(val => val - num),
+        s_mult: vec => vec.map(val => val * num),
+        s_div: vec => vec.map(val => val / num),
+        s_exp: vec => vec.map(val => val ** num)
+    };
+
+    if (!validOperations.hasOwnProperty(op) || (op.startsWith('m') && !checkMatrixes(arr1, arr2))) {
+        return [];
+    }
+
+    return arr1.map(validOperations[op]);
 }
 
 
