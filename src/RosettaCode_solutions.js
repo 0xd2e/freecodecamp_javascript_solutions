@@ -227,8 +227,8 @@ function allEqual(arr) {
     // no default
     }
 
-    const uniqueValues = new Set(arr);
-    return uniqueValues.size === 1;
+    const value = arr[0];
+    return arr.every(currVal => currVal === value);
 }
 
 
@@ -488,19 +488,20 @@ function gcd(a, b) {
 
 // Hofstadter Q sequence
 /* exported hofstadterQ */
-const q = [1, 1];
-
-
 function hofstadterQ(n) {
     'use strict';
 
-    const stop = n;
+    const len = n;
+    const q = new Uint16Array(len);
 
-    for (n = q.length; n < stop; n++) {
-        q.push(q[n - q[n - 1]] + q[n - q[n - 2]]);
+    q[0] = 1;
+    q[1] = 1;
+
+    for (n = 2; n < len; n++) {
+        q[n] = q[n - q[n - 1]] + q[n - q[n - 2]];
     }
 
-    return q[n - 1];
+    return q[len - 1];
 }
 
 
