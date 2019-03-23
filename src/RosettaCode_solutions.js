@@ -69,6 +69,9 @@
  */
 
 
+/* eslint key-spacing: ["error", { "align": "colon" }] */
+
+
 // 100 doors
 /* exported getFinalOpenedDoors */
 function getFinalOpenedDoors(numDoors) {
@@ -304,9 +307,9 @@ function getDateFormats() {
     ];
     const long = {
         weekday: now.toLocaleDateString(loc, { weekday: 'long' }),
-        month: now.toLocaleDateString(loc, { month: 'long' }),
-        day: now.toLocaleDateString(loc, { day: 'numeric' }),
-        year: now.toLocaleDateString(loc, { year: 'numeric' })
+        month  : now.toLocaleDateString(loc, { month: 'long' }),
+        day    : now.toLocaleDateString(loc, { day: 'numeric' }),
+        year   : now.toLocaleDateString(loc, { year: 'numeric' })
     };
 
     return [
@@ -347,16 +350,16 @@ function operation(op, arr1, arr2) {
     const num = 2;
 
     const validOperations = {
-        m_add: (vec, i) => vec.map((val, j) => val + arr2[i][j]),
-        m_sub: (vec, i) => vec.map((val, j) => val - arr2[i][j]),
+        m_add : (vec, i) => vec.map((val, j) => val + arr2[i][j]),
+        m_sub : (vec, i) => vec.map((val, j) => val - arr2[i][j]),
         m_mult: (vec, i) => vec.map((val, j) => val * arr2[i][j]),
-        m_div: (vec, i) => vec.map((val, j) => val / arr2[i][j]),
-        m_exp: (vec, i) => vec.map((val, j) => val ** arr2[i][j]),
-        s_add: vec => vec.map(val => val + num),
-        s_sub: vec => vec.map(val => val - num),
+        m_div : (vec, i) => vec.map((val, j) => val / arr2[i][j]),
+        m_exp : (vec, i) => vec.map((val, j) => val ** arr2[i][j]),
+        s_add : vec => vec.map(val => val + num),
+        s_sub : vec => vec.map(val => val - num),
         s_mult: vec => vec.map(val => val * num),
-        s_div: vec => vec.map(val => val / num),
-        s_exp: vec => vec.map(val => val ** num)
+        s_div : vec => vec.map(val => val / num),
+        s_exp : vec => vec.map(val => val ** num)
     };
 
     if (!validOperations.hasOwnProperty(op) || (op.startsWith('m') && !checkMatrixes(arr1, arr2))) {
