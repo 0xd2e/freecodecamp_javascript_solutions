@@ -491,6 +491,10 @@ function gcd(a, b) {
 function hofstadterQ(n) {
     'use strict';
 
+    if (n < 2) {
+        return 1;
+    }
+
     const len = n;
     const q = new Uint16Array(len);
 
