@@ -10,6 +10,12 @@
  * Ackermann function
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/ackermann-function/
  *
+ * Averages/Mode
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/averagesmode/
+ *
+ * Averages/Pythagorean means
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/averagespythagorean-means
+ *
  * Averages/Root mean square
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/averagesroot-mean-square/
  *
@@ -49,11 +55,17 @@
  * Greatest common divisor
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/greatest-common-divisor/
  *
+ * Harshad or Niven series
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/harshad-or-niven-series/
+ *
  * Hofstadter Q sequence
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/hofstadter-q-sequence/
  *
  * Josephus problem
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/josephus-problem/
+ *
+ * Sailors, coconuts and a monkey problem
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/sailors-coconuts-and-a-monkey-problem/
  *
  * Top rank per group
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/top-rank-per-group/
@@ -126,6 +138,50 @@ function ack(m, n) {
     }
 
     return ack(m - 1, ack(m, n - 1));
+}
+
+
+// Averages/Mode
+/* exported mode */
+function mode(arr) {
+    'use strict';
+
+    const counts = {};
+
+    for (const num of arr) {
+        counts[num] = counts[num] + 1 || 1;
+    }
+
+    const max = Math.max(...Object.values(counts));
+
+    return Object.keys(counts)
+        .filter(key => counts[key] === max)
+        .map(key => key >> 0);
+}
+
+
+// Averages/Pythagorean means
+/* exported pythagoreanMeans */
+function pythagoreanMeans(rangeArr) {
+    'use strict';
+
+    const n = rangeArr.length;
+    const sum = rangeArr.reduce((total, num) => total + num, 0);
+    const product = rangeArr.reduce((prod, num) => prod * num, 1);
+    const sumReciprocal = rangeArr.reduce((total, num) => total + 1 / num, 0);
+
+    const means = {
+        Arithmetic: sum / n,
+        Geometric : product ** (1 / n),
+        Harmonic  : n / sumReciprocal
+    };
+
+    const test = means.Arithmetic >= means.Geometric && means.Geometric >= means.Harmonic;
+
+    return {
+        values: means,
+        test  : `is A >= G >= H ? ${test ? 'yes' : 'no'}`
+    };
 }
 
 
@@ -486,6 +542,45 @@ function gcd(a, b) {
 }
 
 
+// Harshad or Niven series
+/* exported isHarshadOrNiven */
+function isHarshadOrNiven() {
+    'use strict';
+
+    // The Harshad/Niven numbers are positive integers
+    // that are divisible by the sum of their digits.
+
+    const result = {
+        firstTwenty  : [],
+        firstOver1000: undefined
+    };
+
+    const add = (sum, digit) => sum + parseInt(digit);
+    const addAllDigits = int => int.toString().split('').reduce(add, 0);
+
+    let num = 1;
+    let sumOfDigits = 1;
+
+    while (result.firstTwenty.length < 20) {
+        if (num % sumOfDigits === 0) {
+            result.firstTwenty.push(num);
+        }
+        sumOfDigits = addAllDigits(++num);
+    }
+
+    num = 1001;
+    sumOfDigits = addAllDigits(num);
+
+    while (num % sumOfDigits !== 0) {
+        sumOfDigits = addAllDigits(++num);
+    }
+
+    result.firstOver1000 = num;
+
+    return result;
+}
+
+
 // Hofstadter Q sequence
 /* exported hofstadterQ */
 function hofstadterQ(n) {
@@ -522,6 +617,16 @@ function josephus(init, kill) {
     }
 
     return ((josephus(init - 1, kill) + kill - 1) % init) + 1;
+}
+
+
+// Sailors, coconuts and a monkey problem
+/* exported splitCoconuts */
+function splitCoconuts(n) {
+    'use strict';
+
+    // This equations are from: http://oeis.org/A002021
+    return n & 1 ? (n ** n) - n + 1 : (n - 1) * ((n ** n) - 1);
 }
 
 
