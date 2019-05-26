@@ -67,13 +67,15 @@ function largestProductinaSeries(size) {
 
     let frame;
 
-    if (i < 0) i = 0;
+    i = i < 0 ? 0 : i + 1;
 
     for (i; i < lastArrIndex; i++) {
 
         frame = thousandDigits.slice(i, i + size);
 
+        // Look for zero only at the end of a frame, just by chance
         if (frame[lastFrameIndex] === 0) {
+            // Take account of the loop incrementing i with an iteration
             i += lastFrameIndex;
             continue;
         }
