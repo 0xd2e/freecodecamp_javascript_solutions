@@ -183,17 +183,10 @@ function pairwise(arr, arg) {
 class CircularQueue {
 
     constructor(size) {
-
-        this.queue = [];
+        this.queue = Object.seal(new Array(size).fill(null));
         this.read = 0; // front / head position
         this.write = 0; // rear / tail position
         this.max = size - 1;
-
-        while (size > 0) {
-            this.queue.push(null);
-            size--;
-        }
-
     }
 
     print() {
