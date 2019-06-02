@@ -46,6 +46,9 @@
  * Evaluate binomial coefficients
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/evaluate-binomial-coefficients/
  *
+ * Factors of an integer
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/factors-of-an-integer/
+ *
  * Fibonacci sequence
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/fibonacci-sequence/
  *
@@ -484,6 +487,32 @@ function binom(n, k) {
     const denominator = factorial(k);
 
     return parseInt(numerator / denominator);
+}
+
+
+// Factors of an integer
+/* exported factors */
+function factors(num) {
+    'use strict';
+
+    if (num === 1) return [1];
+
+    const limit = Math.floor(Math.sqrt(num));
+    const result = [1, num];
+    const original = num;
+
+    let m;
+
+    for (num = 2; num <= limit; num++) {
+        if (original % num === 0) {
+            result.push(num);
+            m = original / num;
+            if (m !== num) result.push(m);
+        }
+    }
+
+    // Sort the array in ascending order
+    return result.sort((a, b) => a - b);
 }
 
 
