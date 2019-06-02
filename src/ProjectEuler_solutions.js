@@ -12,6 +12,9 @@
  *
  * Problem 9: Special Pythagorean triplet
  * https://learn.freecodecamp.org/coding-interview-prep/project-euler/problem-9-special-pythagorean-triplet
+ *
+ * Problem 36: Double-base palindromes
+ * https://learn.freecodecamp.org/coding-interview-prep/project-euler/problem-36-double-base-palindromes/
  */
 
 
@@ -121,4 +124,94 @@ function specialPythagoreanTriplet(num) {
     }
 
     return answer ? a * b * c : 0;
+}
+
+
+// Problem 36: Double-base palindromes
+function createPalindrome(num, base, oddDigits) {
+    'use strict';
+
+    /*
+     * Inputs:
+     * num -- positive integer number
+     * base -- integer greater than 2, base (radix) of a number system
+     * oddDigits -- boolean, should palindrome have an odd number of digits
+     *
+     * Return a number that is a palindrome in the given base
+     * created from the given number.
+     *
+     * This algorithm is entirely based on:
+     * https://www.mathblog.dk/project-euler-36-palindromic-base-10-2/
+     */
+
+    let palindrome = num;
+
+    // If the palindrome should have an odd number of digits, neglect the last
+    // digit of the input number because middle element occurs once
+    if (oddDigits) {
+        num = (num / base) >> 0;
+    }
+
+    // Creates palindrome by appending reverse of the number to itself
+    while (num > 0) {
+        palindrome = palindrome * base + (num % base);
+        num = (num / base) >> 0;
+    }
+
+    return palindrome;
+}
+
+
+function isPalindrome(num, base) {
+    'use strict';
+
+    /*
+     * Inputs:
+     * num -- positive integer number
+     * base -- integer greater than 2, base (radix) of a number system
+     *
+     * Return true if the given number is a palindrome in the given base,
+     * false otherwise.
+     *
+     * This algorithm is entirely based on:
+     * https://www.mathblog.dk/project-euler-36-palindromic-base-10-2/
+     */
+
+    const original = num;
+    let reversed = 0;
+
+    while (num > 0) {
+        reversed = reversed * base + (num % base);
+        num = (num / base) >> 0;
+    }
+
+    return original === reversed;
+}
+
+
+/* exported doubleBasePalindromes */
+function doubleBasePalindromes(num) {
+    'use strict';
+
+    // This algorithm is entirely based on:
+    // https://www.mathblog.dk/project-euler-36-palindromic-base-10-2/
+
+    // Palindromic numbers have a structure such that they
+    // can be constructed without missing any of them.
+
+    const limit = num;
+    let sum = 0;
+    let i;
+
+    for (const isOdd of [true, false]) {
+        i = 1;
+        do {
+            num = createPalindrome(i++, 10, isOdd);
+            if (isPalindrome(num, 2)) {
+                sum += num;
+            }
+        } while (num < limit);
+    }
+
+    return sum;
 }
