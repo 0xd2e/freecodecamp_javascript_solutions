@@ -401,12 +401,22 @@ function findXmasSunday(start, end) {
 
 // Element-wise operations
 /* exported operation */
-function operation(op, arr1, arr2) {
+function operation(op, arr1, otherArg) {
     'use strict';
 
-    // eslint-disable-next-line max-len
-    const checkMatrixes = (m1, m2) => m1.length === m2.length && m1.every((vec, i) => vec.length === m2[i].length);
-    const num = 2;
+    // Assume that arr1 (always) and arg2 (if it is not a number)
+    // are valid matrixes. The valid matrix is a 2d array of numbers
+    // where every sub-array has the same size.
+
+    // There is no check for division by zero,
+    // which gives +/- Infinity as a result in JavaScript.
+
+    // Check if two matrixes have the same size
+    const checkSize = (m1, m2) => m1.length === m2.length
+        && m1.every((vec, i) => vec.length === m2[i].length);
+
+    let arr2;
+    let num;
 
     const validOperations = {
         m_add : (vec, i) => vec.map((val, j) => val + arr2[i][j]),
@@ -421,11 +431,20 @@ function operation(op, arr1, arr2) {
         s_exp : vec => vec.map(val => val ** num)
     };
 
-    if (!validOperations.hasOwnProperty(op) || (op.startsWith('m') && !checkMatrixes(arr1, arr2))) {
-        return [];
+    if (validOperations.hasOwnProperty(op)) {
+        // Check if arr1 and otherArg match to op
+        if (op.startsWith('m') && Array.isArray(otherArg) && checkSize(arr1, otherArg)) {
+            arr2 = otherArg; // for matrix-matrix operation
+        } else if (typeof otherArg === 'number') {
+            // An array with only one number is considered incorrect
+            num = otherArg; // for scalar-matrix operation
+        }
+        if (arr2 !== undefined || num !== undefined) {
+            return arr1.map(validOperations[op]);
+        }
     }
 
-    return arr1.map(validOperations[op]);
+    return [];
 }
 
 
