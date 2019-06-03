@@ -1,0 +1,52 @@
+{
+    "add12Hours":
+    {
+        "sources":
+        [
+            "https://github.com/freeCodeCamp/freeCodeCamp/blob/master/curriculum/challenges/english/08-coding-interview-prep/rosetta-code/date-manipulation.english.md"
+        ],
+        "cases":
+        [
+            ["January 17 2017 11:43am EST", "January 17 2017 11:43pm EST"],
+            ["March 7 2009 7:30pm EST", "March 8 2009 7:30am EST"],
+            ["February 29 2004 9:15pm EST", "March 1 2004 9:15am EST"],
+            ["February 28 1999 3:15pm EST", "March 1 1999 3:15am EST"],
+            ["December 31 2020 1:45pm EST", "January 1 2021 1:45am EST"],
+            ["August 10 2001 12:00am GMT", "August 10 2001 12:00pm GMT"],
+            ["August 10 2001 12:00pm GMT", "August 11 2001 12:00am GMT"]
+        ]
+    },
+    "equilibrium":
+    {
+        "sources":
+        [
+            "https://github.com/freeCodeCamp/freeCodeCamp/blob/master/curriculum/challenges/english/08-coding-interview-prep/rosetta-code/equilibrium-index.english.md"
+        ],
+        "cases":
+        [
+            [[-7, 1, 5, 2, -4, 3, 0], [3, 6]],
+            [[2, 4, 6], []],
+            [[2, 9, 2], [1]],
+            [[1, -1, 1, -1, 1, -1, 1], [0, 1, 2, 3, 4, 5, 6]],
+            [[1], [0]],
+            [[], []]
+        ]
+    },
+    "maximumSubsequence":
+    {
+        "sources":
+        [
+            "https://github.com/freeCodeCamp/freeCodeCamp/blob/master/curriculum/challenges/english/08-coding-interview-prep/rosetta-code/greatest-subsequential-sum.english.md",
+            "https://en.wikipedia.org/wiki/Maximum_subarray_problem"
+        ],
+        "cases":
+        [
+            [[1, 2, -1, 3, 10, -10], [1, 2, -1, 3, 10]],
+            [[9, 9, -10, 1], [9, 9]],
+            [[7, 1, -5, -3, -8, 1], [7, 1]],
+            [[-3, 6, -1, 4, -4, -6], [6, -1, 4]],
+            [[-1, -2, 3, 5, 6, -2, -1, 4, -4, 2, -1], [3, 5, 6, -2, -1, 4]],
+            [[-2, 1, -3, 4, -1, 2, 1, -5, 4], [4, -1, 2, 1]]
+        ]
+    }
+}
