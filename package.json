@@ -15,5 +15,9 @@
         "eslint-config-airbnb-base": "^13.1.0",
         "eslint-plugin-import": "^2.17.3"
     },
+    "engines": {
+        "node": ">=8.16.0",
+        "npm": ">=6.9.0"
+    },
     "license": "MIT"
 }
