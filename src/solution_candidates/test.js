@@ -20,6 +20,7 @@ const {
 
 
 const {
+    printCacheSize: printCollatzCacheSize,
     longestCollatzSequence
 } = require('./ProjectEuler_collatz.js');
 
@@ -93,6 +94,7 @@ function runTests() {
     testSolution(equilibrium, 'Rosetta Code: Equilibrium index problem', false);
     testSolution(maximumSubsequence, 'Rosetta Code: Greatest subsequential sum problem', false);
     testSolution(longestCollatzSequence, 'Project Euler: Problem 14 - Longest Collatz sequence', true);
+    printCollatzCacheSize();
 }
 
 
