@@ -39,7 +39,7 @@ function testSolution(fn, description, singleValue) {
      * This function does not return any value.
      */
 
-    console.log(`\nTesting ${fn.name} function\n(${description})`);
+    console.log(`\nTesting '${fn.name}' function for correct output\n(${description})`);
 
     const testCases = loadTestCases(fn.name);
 
