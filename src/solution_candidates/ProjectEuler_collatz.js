@@ -22,26 +22,24 @@ function longestCollatzSequence(num) {
      * the number with the longest Collatz (hailstone) sequence.
      */
 
-    const calcCollatzSequenceLength = (n) => {
-        let seqLength = 0;
-        while (n !== 1) {
-            ++seqLength;
-            n = n & 1 ? 3 * n + 1 : n /= 2;
-        }
-        return seqLength;
-    };
-
     let maxLength = 2;
     let maxNumber = 2;
-    let len;
+    let startNumber = num - 1;
+    let seqLength;
 
-    for (--num; num > 2; --num) {
+    for (startNumber; startNumber > 2; --startNumber) {
 
-        len = calcCollatzSequenceLength(num);
+        seqLength = 0;
+        num = startNumber;
 
-        if (maxLength < len) {
-            maxLength = len;
-            maxNumber = num;
+        while (num !== 1) {
+            ++seqLength;
+            num = num & 1 ? 3 * num + 1 : num /= 2;
+        }
+
+        if (maxLength < seqLength) {
+            maxLength = seqLength;
+            maxNumber = startNumber;
         }
     }
 
