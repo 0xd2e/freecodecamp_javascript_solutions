@@ -19,6 +19,11 @@ const {
 } = require('./RosettaCode.js');
 
 
+const {
+    longestCollatzSequence
+} = require('./ProjectEuler_collatz.js');
+
+
 function testSolution(fn, description, singleValue) {
     'use strict';
 
@@ -87,6 +92,7 @@ function runTests() {
     testSolution(add12Hours, 'Rosetta Code: Date manipulation problem', true);
     testSolution(equilibrium, 'Rosetta Code: Equilibrium index problem', false);
     testSolution(maximumSubsequence, 'Rosetta Code: Greatest subsequential sum problem', false);
+    testSolution(longestCollatzSequence, 'Project Euler: Problem 14 - Longest Collatz sequence', true);
 }
 
 
