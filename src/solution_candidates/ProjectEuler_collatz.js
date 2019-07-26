@@ -59,8 +59,7 @@ function longestCollatzSequence(num) {
     let maxLength = 2;
     let maxNumber = 2;
     let startNumber = num - 1;
-    let seqLength;
-    let seq;
+    let startNumSeqLength;
 
     if (cache[2] === undefined) {
         prepopulate(cache);
@@ -68,23 +67,21 @@ function longestCollatzSequence(num) {
 
     for (startNumber; startNumber > 2; --startNumber) {
 
-        seq = [];
+        startNumSeqLength = 0;
         num = startNumber;
 
         while (!cache.hasOwnProperty(num)) {
-            seq.push(num);
+            ++startNumSeqLength;
             num = num & 1 ? 3 * num + 1 : num /= 2;
         }
 
-        seqLength = seq.length + cache[num];
+        startNumSeqLength += cache[num];
 
         // Update cache
-        for (num = 0; num < seq.length; ++num) {
-            cache[seq[num]] = seqLength - num;
-        }
+        cache[startNumber] = startNumSeqLength;
 
-        if (maxLength < seqLength) {
-            maxLength = seqLength;
+        if (maxLength < startNumSeqLength) {
+            maxLength = startNumSeqLength;
             maxNumber = startNumber;
         }
     }
