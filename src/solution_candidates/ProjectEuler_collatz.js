@@ -56,16 +56,17 @@ function longestCollatzSequence(num) {
      */
 
     const cache = MEMO_CACHE;
+    const limit = num - 1;
     let maxLength = 2;
     let maxNumber = 2;
-    let startNumber = num - 1;
+    let startNumber = 3;
     let startNumSeqLength;
 
     if (cache[2] === undefined) {
         prepopulate(cache);
     }
 
-    for (startNumber; startNumber > 2; --startNumber) {
+    for (startNumber; startNumber < limit; ++startNumber) {
 
         startNumSeqLength = 0;
         num = startNumber;
