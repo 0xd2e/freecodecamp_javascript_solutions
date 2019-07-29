@@ -12,8 +12,7 @@ const {
     buildGraphFromText,
     invertKeys,
     countDegrees,
-    topologicalSort,
-    recursiveTopologicalSort
+    topologicalSort
 } = require('./RosettaCode_topsort.js');
 
 
@@ -358,7 +357,6 @@ function runTests() {
     const t = process.hrtime();
 
     runCountDegreesTests();
-    testTopologicalSort(recursiveTopologicalSort, false);
     testTopologicalSort(topologicalSort, false);
 
     const [seconds, nanoseconds] = process.hrtime(t);

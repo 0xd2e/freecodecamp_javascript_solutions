@@ -187,68 +187,6 @@ function findZeroDegreeNodes(degrees) {
 }
 
 
-function depthFirstSearch(currentNode, visitedNodes, orderedNodeList, graph) {
-    'use strict';
-
-    /*
-     * Input:
-     * currentNode -- string
-     * visitedNodes -- set of strings
-     * orderedNodeList -- array of strings
-     * graph -- Map object, a graph represented as an adjacency list
-     *       -- it must be Directed Acyclic Graph
-     *
-     * This function does not return any value,
-     * updates (mutates) its parameters instead.
-     */
-
-    visitedNodes.add(currentNode);
-
-    // Explore leaf nodes (direct dependencies)
-    for (const nextNode of graph.get(currentNode)) {
-        if (!visitedNodes.has(nextNode)) {
-            depthFirstSearch(nextNode, visitedNodes, orderedNodeList, graph);
-        }
-    }
-
-    // Prepend a node (library) only when all of its descendant
-    // nodes (dependencies) are already in the list
-    orderedNodeList.unshift(currentNode);
-}
-
-
-function recursiveTopologicalSort(libs) {
-    'use strict';
-
-    /*
-     * Input:
-     * libs -- string, list of libraries
-     *      -- each library, together with its dependencies,
-     *         must be placed in one single line
-     *      -- if dependencies are split between multiple lines,
-     *         they will be overwritten instead of merged
-     *      -- library name must be a single word
-     *      -- library names within a line must be separated
-     *         by at least one space
-     *
-     * Retrun an array of strings, a valid compile order
-     * (topological sorting) of libraries from their dependencies.
-     */
-
-    const graph = invertKeys(buildGraphFromText(libs));
-    const visitedNodes = new Set();
-    const orderedLibraries = [];
-
-    for (const currentNode of graph.keys()) {
-        if (!visitedNodes.has(currentNode)) {
-            depthFirstSearch(currentNode, visitedNodes, orderedLibraries, graph);
-        }
-    }
-
-    return orderedLibraries;
-}
-
-
 function topologicalSort(libs) {
     'use strict';
 
@@ -299,6 +237,5 @@ module.exports = {
     invertKeys,
     countDegrees,
     findZeroDegreeNodes,
-    topologicalSort,
-    recursiveTopologicalSort
+    topologicalSort
 };
