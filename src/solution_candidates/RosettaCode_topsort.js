@@ -23,8 +23,7 @@
  *    from the perspective of a compiler, therefore, libraries
  *    with no dependencies have indegree zero
  * -- problem with cycle(s) in a graph (un-orderable dependencies)
- *    is not yet resolved - solutions are valid only for Directed
- *    Acyclic Graphs
+ *    is not yet fully resolved
  */
 
 
@@ -225,6 +224,13 @@ function topologicalSort(libs) {
             if (--indegrees[nextNode] === 0) {
                 sourcekNodes.push(nextNode);
             }
+        }
+    }
+
+    // Check if there was a cycle
+    for (const indeg of Object.values(indegrees)) {
+        if (indeg !== 0) {
+            return [];
         }
     }
 
