@@ -102,6 +102,18 @@ function loadTestData() {
                 '1 0 3 2 4 5',
                 '1 0 3 4 2 5'
             ]
+        },
+        {
+            input: ['A B C', 'B C', 'C A'],
+            inDegreesAnswer: { A: 2, B: 1, C: 1 },
+            outDegreesAnswer: { A: 1, B: 1, C: 2 },
+            topsortAnswers: []
+        },
+        {
+            input: ['A B C', 'C D', 'D E F', 'B D', 'F A'],
+            inDegreesAnswer: { B: 1, A: 2, C: 1, E: 0, D: 2, F: 1 }, // eslint-disable-line object-curly-newline
+            outDegreesAnswer: { B: 1, A: 1, C: 1, E: 1, D: 2, F: 1 }, // eslint-disable-line object-curly-newline
+            topsortAnswers: []
         }
     ];
 
