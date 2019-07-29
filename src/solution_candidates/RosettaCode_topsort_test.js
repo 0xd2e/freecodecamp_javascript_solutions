@@ -300,11 +300,13 @@ function testTopologicalSort(fn, useAnswers) {
     // of sorting function is one of a possible valid sequences
     const checkAnswers = () => {
         if (!Array.isArray(out)) return false;
+        if (ans.length === 0 && out.length === 0) return true;
         const stringified = out.join(' ');
         return ans.some(value => value === stringified);
     };
 
     // Check if a node comes after the node(s) it points to / depends on
+    // Valid only for Directed Acyclic Graphs
     const checkOrder = () => {
 
         if (!Array.isArray(out)) return false;
@@ -357,7 +359,7 @@ function runTests() {
     const t = process.hrtime();
 
     runCountDegreesTests();
-    testTopologicalSort(topologicalSort, false);
+    testTopologicalSort(topologicalSort, true);
 
     const [seconds, nanoseconds] = process.hrtime(t);
 
