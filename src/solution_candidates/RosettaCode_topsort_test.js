@@ -375,7 +375,7 @@ function runTests() {
 
     const [seconds, nanoseconds] = process.hrtime(t);
 
-    console.log(`\nTotal time: ${seconds} sec ${nanoseconds / 1e6} msec`);
+    console.log(`\nTest set total time: ${seconds} sec ${nanoseconds / 1e6} msec`);
 }
 
 
