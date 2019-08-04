@@ -202,6 +202,7 @@ function topologicalSort(libs) {
      *
      * Retrun an array of strings, a valid compile order
      * (topological sorting) of libraries from their dependencies.
+     * If libraries contain cyclic dependencies, an empty array is retruned.
      */
 
     // Kahn's algorithm
