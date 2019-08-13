@@ -596,11 +596,11 @@ class ModernPerson {
     }
 
     set firstName(first) {
-        this.setFullName = `${first} ${this._lastName}`;
+        this.fullName = `${first} ${this._lastName}`;
     }
 
     set lastName(last) {
-        this.setFullName = `${this._firstName} ${last}`;
+        this.fullName = `${this._firstName} ${last}`;
     }
 
     set fullName(firstAndLast) {
