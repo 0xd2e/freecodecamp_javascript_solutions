@@ -15,6 +15,9 @@
  *
  * Problem 36: Double-base palindromes
  * https://learn.freecodecamp.org/coding-interview-prep/project-euler/problem-36-double-base-palindromes/
+ *
+ * Problem 40: Champernowne's constant
+ * https://learn.freecodecamp.org/coding-interview-prep/project-euler/problem-40-champernownes-constant/
  */
 
 
@@ -214,4 +217,60 @@ function doubleBasePalindromes(num) {
     }
 
     return sum;
+}
+
+
+// Problem 40: Champernowne's constant
+function getDigits(n) {
+    'use strict';
+
+    /*
+     * Input:
+     * n -- positive integer number
+     *   -- index of a digit in the sequence
+     *   -- must be a power of 10
+     *
+     * Returns an integer, a single digit at the given position in the sequence.
+     *
+     * This algorithm is entirely based on:
+     * https://www.xarg.org/puzzle/project-euler/problem-40/
+     *
+     * Notes:
+     * - "sequence" is created by concatenating consecutive positive integers (A007376 in the OEIS)
+     * - "block" is a chunk of the sequence based on a number of digits in a number
+     * - index of the current block corresponds to the number of digits in each number in the block
+     */
+
+    let f; // total amount of numbers until and including the first number of the current block
+    let r; // index upper bound of the previous block, total amount of digits until the current block
+    let k = 0; // index of the current block, number of digits each number has in the current block
+    let s = 0; // index upper bound of the current block, total amount of digits until next block
+
+    while (s < n) {
+        r = s;
+        f = 10 ** k++;
+        s += 9 * f * k;
+    }
+
+    const h = n - r - 1;
+    const t = f + h / k; // number in the sequence that contains requested digit
+    const p = h % k; // position of the digit in the number
+
+    return +t.toString()[p];
+}
+
+
+/* exported champernownesConstant */
+function champernownesConstant(n) {
+    'use strict';
+
+    // Based on: https://www.xarg.org/puzzle/project-euler/problem-40/
+
+    let answer = 1;
+
+    for (n; n >= 1; n /= 10) {
+        answer *= getDigits(n);
+    }
+
+    return answer;
 }
