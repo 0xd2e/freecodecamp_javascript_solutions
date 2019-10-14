@@ -2,7 +2,9 @@
     "name": "freecodecamp_javascript_solutions",
     "version": "1.0.0",
     "description": "Solutions to freecodecamp.org JavaScript challenges and projects.",
-    "scripts": {},
+    "scripts": {
+        "lint": "eslint ./src/**/*.js"
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/f171a9a3497c8b/freecodecamp_javascript_solutions.git"
