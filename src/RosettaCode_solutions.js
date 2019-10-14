@@ -61,8 +61,14 @@
  * Harshad or Niven series
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/harshad-or-niven-series/
  *
+ * Hash from two arrays
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/hash-from-two-arrays/
+ *
  * Hofstadter Q sequence
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/hofstadter-q-sequence/
+ *
+ * I before E except after C
+ * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/i-before-e-except-after-c/
  *
  * Josephus problem
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/josephus-problem/
@@ -629,6 +635,22 @@ function isHarshadOrNiven() {
 }
 
 
+// Hash from two arrays
+/* exported arrToObj */
+function arrToObj(keys, values) {
+    'use strict';
+
+    const obj = {};
+    const valuesIter = values.values();
+
+    for (const key of keys) {
+        obj[key] = valuesIter.next().value;
+    }
+
+    return obj;
+}
+
+
 // Hofstadter Q sequence
 /* exported hofstadterQ */
 function hofstadterQ(n) {
@@ -649,6 +671,21 @@ function hofstadterQ(n) {
     }
 
     return q[len - 1];
+}
+
+
+// I before E except after C
+/* exported IBeforeExceptC */
+function IBeforeExceptC(word) {
+    'use strict';
+
+    word = word.toLowerCase();
+
+    // Check for rules violation
+    const breakedRule1 = word.includes('cie'); // "I before E when not preceded by C"
+    const breakedRule2 = (/[^c]ei/).test(word); // "E before I when preceded by C"
+
+    return !(breakedRule1 || breakedRule2);
 }
 
 
