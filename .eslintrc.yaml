@@ -8,14 +8,18 @@ env:
   node: false
   commonjs: false
   es6: true
+  es2017: true
+  es2020: false
   worker: false
   amd: false
   mocha: false
   jasmine: false
+  jest: false
   jquery: false
   mongo: false
   serviceworker: false
   webextensions: false
+parser: "esprima"
 parserOptions:
   ecmaVersion: 9
   sourceType: "script"
@@ -31,6 +35,11 @@ rules:
   indent:
     - "error"
     - 4
+    - SwitchCase: 0
+      VariableDeclarator:
+        var: 1
+        let: 1
+        const: 2
   linebreak-style:
     - "error"
     - "unix"
