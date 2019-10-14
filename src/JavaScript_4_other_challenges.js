@@ -54,7 +54,7 @@ function updateInventory(curInv, newInv) {
 
     // Mutate (change values in place) and return a reference to the given current inventory list.
 
-    const curInvItemNames = curInv.map(item => item[1]);
+    const curInvItemNames = curInv.map((item) => item[1]);
 
     let item;
     let i;

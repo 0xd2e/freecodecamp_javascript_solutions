@@ -28,14 +28,14 @@ function multiplesOf3and5(num) {
     num--; // to find the sum of all the multiples of 3 or 5 below this integer
 
     // Count the numbers of multiples of 3, 5, and 15
-    const multi3 = parseInt(num / 3);
-    const multi5 = parseInt(num / 5);
-    const multi15 = parseInt(num / 15);
+    const multi3 = Math.floor(num / 3);
+    const multi5 = Math.floor(num / 5);
+    const multi15 = Math.floor(num / 15);
 
     // Calculate sums of corresponding arithmetic sequences
-    const multi3sum = parseInt((2 * 3 + (multi3 - 1) * 3) * multi3 / 2);
-    const multi5sum = parseInt((2 * 5 + (multi5 - 1) * 5) * multi5 / 2);
-    const multi15sum = parseInt((2 * 15 + (multi15 - 1) * 15) * multi15 / 2);
+    const multi3sum = Math.floor(((2 * 3 + (multi3 - 1) * 3) * multi3) / 2);
+    const multi5sum = Math.floor(((2 * 5 + (multi5 - 1) * 5) * multi5) / 2);
+    const multi15sum = Math.floor(((2 * 15 + (multi15 - 1) * 15) * multi15) / 2);
 
     return multi3sum + multi5sum - multi15sum;
 }
@@ -46,8 +46,8 @@ function multiplesOf3and5(num) {
 function sumSquareDifference(n) {
     'use strict';
 
-    const sumOfSquares = n * (n + 1) * (2 * n + 1) / 6;
-    const squaredSum = (n * (n + 1) / 2) ** 2;
+    const sumOfSquares = (n * (n + 1) * (2 * n + 1)) / 6;
+    const squaredSum = ((n * (n + 1)) / 2) ** 2;
 
     return Math.abs(squaredSum - sumOfSquares);
 }

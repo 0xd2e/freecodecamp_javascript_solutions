@@ -56,7 +56,7 @@
 function convertToF(celsius) {
     'use strict';
 
-    return celsius * 9 / 5 + 32;
+    return (celsius * 9) / 5 + 32;
 }
 
 
@@ -207,7 +207,7 @@ function frankenSplice(arr1, arr2, n) {
 function bouncer(arr) {
     'use strict';
 
-    return arr.filter(item => item);
+    return arr.filter((item) => item);
 }
 
 
@@ -229,7 +229,7 @@ function mutation(arr) {
     // is a subset of letters from the string in the first element of the array
     // (case insensitive).
 
-    const [first, second] = arr.map(str => new Set(str.toLowerCase()));
+    const [first, second] = arr.map((str) => new Set(str.toLowerCase()));
 
     let elem;
 
