@@ -124,7 +124,7 @@ function destroyer(arr) {
 
     // Do not mutate the original array
     for (const arg of args) {
-        arr = arr.filter(item => item !== arg);
+        arr = arr.filter((item) => item !== arg);
     }
 
     return arr;
@@ -253,7 +253,7 @@ function pairElement(str) {
         G: 'C'
     };
 
-    return str.split('').map(elem => [elem, pairs[elem] || '']);
+    return str.split('').map((elem) => [elem, pairs[elem] || '']);
 }
 
 
@@ -315,7 +315,7 @@ function convertHTML(str) {
     };
 
     // Remember that some characters in regular expression must be escaped with backslash.
-    return str.replace(/[&><"']/g, char => symbols[char]);
+    return str.replace(/[&><"']/g, (char) => symbols[char]);
 }
 
 
@@ -369,11 +369,11 @@ function sumPrimes(int) {
             k = (3 * i + 1) | 1;
             kk = k + k;
 
-            j = parseInt(k * k / 3);
+            j = Math.floor((k * k) / 3);
 
             for (j; j < len; j += kk) sieve[j] = 0;
 
-            j = parseInt(k * (k - 2 * (i & 1) + 4) / 3);
+            j = Math.floor((k * (k - 2 * (i & 1) + 4)) / 3);
 
             for (j; j < len; j += kk) sieve[j] = 0;
         }
@@ -519,7 +519,7 @@ function addTogether() {
 
     if (arguments.length === 1 && typeof arguments[0] === 'number') {
         // eslint-disable-next-line no-confusing-arrow
-        return num => typeof num === 'number' ? arguments[0] + num : undefined;
+        return (num) => typeof num === 'number' ? arguments[0] + num : undefined;
     }
 }
 

@@ -109,7 +109,7 @@ function getFinalOpenedDoors(numDoors) {
         }
     }
 
-    return doors.filter(num => num > 0);
+    return doors.filter((num) => num > 0);
 }
 
 
@@ -158,8 +158,8 @@ function mode(arr) {
     const max = Math.max(...Object.values(counts));
 
     return Object.keys(counts)
-        .filter(key => counts[key] === max)
-        .map(key => key >> 0);
+        .filter((key) => counts[key] === max)
+        .map((key) => key >> 0);
 }
 
 
@@ -250,7 +250,7 @@ function getCircles(...args) {
         [x3 - dist * uvecx, y3 - dist * uvecy]
     ];
 
-    return centers.map(xy => [
+    return centers.map((xy) => [
         +(Math.round(xy[0] + 'e+4') + 'e-4'), // eslint-disable-line prefer-template
         +(Math.round(xy[1] + 'e+4') + 'e-4') // eslint-disable-line prefer-template
     ]);
@@ -287,7 +287,7 @@ function allEqual(arr) {
     }
 
     const value = arr[0];
-    return arr.every(currVal => currVal === value);
+    return arr.every((currVal) => currVal === value);
 }
 
 
@@ -424,11 +424,11 @@ function operation(op, arr1, otherArg) {
         m_mult: (vec, i) => vec.map((val, j) => val * arr2[i][j]),
         m_div : (vec, i) => vec.map((val, j) => val / arr2[i][j]),
         m_exp : (vec, i) => vec.map((val, j) => val ** arr2[i][j]),
-        s_add : vec => vec.map(val => val + num),
-        s_sub : vec => vec.map(val => val - num),
-        s_mult: vec => vec.map(val => val * num),
-        s_div : vec => vec.map(val => val / num),
-        s_exp : vec => vec.map(val => val ** num)
+        s_add : (vec) => vec.map((val) => val + num),
+        s_sub : (vec) => vec.map((val) => val - num),
+        s_mult: (vec) => vec.map((val) => val * num),
+        s_div : (vec) => vec.map((val) => val / num),
+        s_exp : (vec) => vec.map((val) => val ** num)
     };
 
     if (validOperations.hasOwnProperty(op)) {
@@ -463,7 +463,7 @@ function entropy(str) {
     }
 
     return -1 * Object.values(charCount)
-        .map(num => num / numChars) // calculate probabilities
+        .map((num) => num / numChars) // calculate probabilities
         .reduce((sum, prob) => sum + prob * Math.log2(prob), 0);
 }
 
@@ -562,7 +562,7 @@ function gray(enc, num) {
     }
 
     const radix = 2; // the base of the number systems
-    const binaryArr = new Uint8Array(num.toString(radix).split('').map(bit => bit >> 0));
+    const binaryArr = new Uint8Array(num.toString(radix).split('').map((bit) => bit >> 0));
     const len = binaryArr.length;
 
     let i = 1;
@@ -604,7 +604,7 @@ function isHarshadOrNiven() {
     };
 
     const add = (sum, digit) => sum + parseInt(digit);
-    const addAllDigits = int => int.toString().split('').reduce(add, 0);
+    const addAllDigits = (int) => int.toString().split('').reduce(add, 0);
 
     let num = 1;
     let sumOfDigits = 1;
@@ -687,7 +687,7 @@ function topRankPerGroup(n, data, groupby, rankby) {
         return undefined;
     }
 
-    const uniqueGroups = new Set(data.map(item => item[groupby]));
+    const uniqueGroups = new Set(data.map((item) => item[groupby]));
     const arrangeDesc = (a, b) => b[rankby] - a[rankby];
     const processedData = [];
 
@@ -701,7 +701,7 @@ function topRankPerGroup(n, data, groupby, rankby) {
     const sortedGroups = [...uniqueGroups].sort();
     let group;
     let items;
-    const selectGroup = item => item[groupby] === group;
+    const selectGroup = (item) => item[groupby] === group;
 
     for (group of sortedGroups) {
         items = data.filter(selectGroup).sort(arrangeDesc).slice(0, n);
@@ -781,7 +781,7 @@ function dotProduct() {
 
     const n = vectors[0].length;
 
-    if (n === 0 || vectors.some(vec => vec.length !== n)) {
+    if (n === 0 || vectors.some((vec) => vec.length !== n)) {
         return null;
     }
 

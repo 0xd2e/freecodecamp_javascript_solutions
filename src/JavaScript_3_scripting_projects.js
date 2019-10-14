@@ -346,7 +346,7 @@ function checkCashRegister(price, cash, cid) {
     cash = cash * conversionFactor >> 0;
 
     // Do not mutate the original array, preserve order
-    cid = cid.map(denom => [denom[0], denom[1] * conversionFactor >> 0]);
+    cid = cid.map((denom) => [denom[0], denom[1] * conversionFactor >> 0]);
 
     // Sum of all cash in the cash register
     const cidTotal = cid.reduce((sum, denom) => sum + denom[1], 0);
