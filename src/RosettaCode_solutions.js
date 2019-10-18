@@ -19,6 +19,9 @@
  * Averages/Root mean square
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/averagesroot-mean-square/
  *
+ * Balanced brackets
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/balanced-brackets
+ *
  * Circles of given radius through two points
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/circles-of-given-radius-through-two-points/
  *
@@ -30,6 +33,12 @@
  *
  * Convert seconds to compound duration
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/convert-seconds-to-compound-duration
+ *
+ * Cumulative standard deviation
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/cumulative-standard-deviation
+ *
+ * CUSIP
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/cusip
  *
  * Date format
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/date-format/
@@ -69,6 +78,9 @@
  *
  * I before E except after C
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/i-before-e-except-after-c/
+ *
+ * Identity matrix
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/identity-matrix
  *
  * Josephus problem
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/josephus-problem/
@@ -204,6 +216,34 @@ function rms(arr) {
     const sumSquares = arr.reduce((sum, num) => sum + num * num, 0);
 
     return Math.sqrt(sumSquares / arr.length);
+}
+
+
+// Balanced brackets
+/* exported isBalanced */
+function isBalanced(str) {
+    'use strict';
+
+    const bracketsCount = {
+        ']': 0,
+        ')': 0,
+        '}': 0,
+        '>': 0
+    };
+
+    const bracketsPart = {
+        '[': ']', // square brackets
+        '(': ')', // parentheses
+        '{': '}', // curly brackets
+        '<': '>' // anglee brackets
+    };
+
+    for (const char of str) {
+        if (bracketsCount.hasOwnProperty(char) && --bracketsCount[char] < 0) return false;
+        if (bracketsPart.hasOwnProperty(char)) ++bracketsCount[bracketsPart[char]];
+    }
+
+    return Object.values(bracketsCount).reduce((sum, num) => sum + num, 0) === 0;
 }
 
 
@@ -357,6 +397,91 @@ function convertSeconds(seconds) {
     return compoundDuration.join(', ');
 }
 
+
+// Cumulative standard deviation
+/* exported standardDeviation */
+function standardDeviation(arr) {
+    'use strict';
+
+    const mean = arr.reduce((sum, num) => sum + num, 0) / arr.length;
+    const variance = arr.reduce((sum, num) => sum + (num - mean) ** 2, 0) / arr.length;
+
+    // Standard deviation for a population, rounded to 3 decimal places
+    return Math.round(Math.sqrt(variance) * 1000) / 1000;
+}
+
+
+// CUSIP
+/* exported isCusip */
+function isCusip(str) {
+    'use strict';
+
+    // Based on: https://en.wikipedia.org/wiki/CUSIP#Check_digit_pseudocode
+
+    if (str.length !== 9) return false;
+
+    str = str.toUpperCase();
+
+    const valuesTable = {
+        '0': 0,
+        '1': 1,
+        '2': 2,
+        '3': 3,
+        '4': 4,
+        '5': 5,
+        '6': 6,
+        '7': 7,
+        '8': 8,
+        '9': 9,
+        'A': 10,
+        'B': 11,
+        'C': 12,
+        'D': 13,
+        'E': 14,
+        'F': 15,
+        'G': 16,
+        'H': 17,
+        'I': 18,
+        'J': 19,
+        'K': 20,
+        'L': 21,
+        'M': 22,
+        'N': 23,
+        'O': 24,
+        'P': 25,
+        'Q': 26,
+        'R': 27,
+        'S': 28,
+        'T': 29,
+        'U': 30,
+        'V': 31,
+        'W': 32,
+        'X': 33,
+        'Y': 34,
+        'Z': 35,
+        '*': 36,
+        '@': 37,
+        '#': 38
+    };
+
+    let char;
+    let value;
+    let sum = 0;
+    let i = 1;
+
+    for (i; i < 9; ++i) {
+        char = str[i - 1];
+        if (!valuesTable.hasOwnProperty(char)) return false;
+        value = valuesTable[char];
+        if ((i & 1) === 0) value *= 2; // double the value at even position
+        sum += Math.floor(value / 10) + (value % 10);
+    }
+
+    sum = (10 - (sum % 10)) % 10;
+    value = parseInt(str[8]);
+
+    return sum === value;
+}
 
 // Date format
 /* exported getDateFormats */
@@ -686,6 +811,28 @@ function IBeforeExceptC(word) {
     const breakedRule2 = (/[^c]ei/).test(word); // "E before I when preceded by C"
 
     return !(breakedRule1 || breakedRule2);
+}
+
+
+// Identity matrix
+/* exported idMatrix */
+function idMatrix(n) {
+    'use strict';
+
+    const m = n;
+    const matrix = [];
+    const row = new Array(m);
+
+    row.fill(0);
+    Object.freeze(row);
+    Object.seal(row);
+
+    for (n = 0; n < m; ++n) {
+        matrix.push([...row]);
+        matrix[n][n] = 1;
+    }
+
+    return matrix;
 }
 
 
