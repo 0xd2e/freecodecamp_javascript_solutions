@@ -11,7 +11,10 @@
     },
     "author": "Maciej Struski",
     "private": true,
-    "dependencies": {},
+    "dependencies": {
+        "node-fetch": "^2.6.0",
+        "pdf-parse": "^1.1.1"
+    },
     "devDependencies": {
         "eslint": "^6.5.1",
         "eslint-config-airbnb-base": "^14.0.0",
