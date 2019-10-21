@@ -85,11 +85,35 @@
  * Identity matrix
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/identity-matrix
  *
+ * Iterated digits squaring
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/iterated-digits-squaring
+ *
  * Josephus problem
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/josephus-problem/
  *
+ * Last Friday of each month
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/last-friday-of-each-month
+ *
+ * Leap year
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/leap-year
+ *
  * Sailors, coconuts and a monkey problem
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/sailors-coconuts-and-a-monkey-problem/
+ *
+ * Sort an array of composite structures
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/sort-an-array-of-composite-structures
+ *
+ * Sort disjoint sublist
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/sort-disjoint-sublist
+ *
+ * Sort using a custom comparator
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/sort-using-a-custom-comparator
+ *
+ * Spiral matrix
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/spiral-matrix
+ *
+ * Sum of squares
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/sum-of-squares
  *
  * Top rank per group
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/top-rank-per-group/
@@ -996,6 +1020,26 @@ function idMatrix(n) {
 }
 
 
+// Iterated digits squaring
+/* exported iteratedSquare */
+function iteratedSquare(n) {
+    'use strict';
+
+    let sumSquaredDigits;
+
+    while (n !== 1 && n !== 89) {
+        sumSquaredDigits = 0;
+        while (n > 0) {
+            sumSquaredDigits += (n % 10) ** 2;
+            n = (n / 10) >> 0;
+        }
+        n = sumSquaredDigits;
+    }
+
+    return n;
+}
+
+
 // Josephus problem
 /* exported josephus */
 function josephus(init, kill) {
@@ -1012,6 +1056,37 @@ function josephus(init, kill) {
 }
 
 
+// Last Friday of each month
+/* exported lastFriday */
+function lastFriday(year, month) {
+    'use strict';
+
+    // Last day of the given month
+    const d = new Date(year, month, 0);
+    const lastDay = d.getDate();
+
+    switch (d.getDay()) {
+    case 0: return lastDay - 2; // Sunday
+    case 1: return lastDay - 3; // Monday
+    case 2: return lastDay - 4; // Tuesday
+    case 3: return lastDay - 5; // Wednesday
+    case 4: return lastDay - 6; // Thursday
+    case 6: return lastDay - 1; // Saturday
+    default: return lastDay; // Friday
+    }
+}
+
+
+// Leap year
+/* exported isLeapYear */
+function isLeapYear(year) {
+    'use strict';
+
+    // It is not valid before start of the Gregorian callendar (1582)
+    return (year % 4 === 0) && ((year % 100 !== 0) || (year % 400 === 0));
+}
+
+
 // Sailors, coconuts and a monkey problem
 /* exported splitCoconuts */
 function splitCoconuts(n) {
@@ -1019,6 +1094,140 @@ function splitCoconuts(n) {
 
     // This equations are from: http://oeis.org/A002021
     return n & 1 ? (n ** n) - n + 1 : (n - 1) * ((n ** n) - 1);
+}
+
+
+// Sort an array of composite structures
+/* exported sortByKey */
+function sortByKey(arr) {
+    'use strict';
+
+    return arr.sort((a, b) => a.key - b.key);
+}
+
+
+// Sort disjoint sublist
+/* exported sortDisjoint */
+function sortDisjoint(values, indices) {
+    'use strict';
+
+    const subArr = [];
+    const n = indices.length;
+    const sortAscending = (a, b) => a - b;
+
+    let i;
+
+    for (i of indices) {
+        subArr.push(values[i]);
+    }
+
+    subArr.sort(sortAscending);
+    indices.sort(sortAscending);
+
+    for (i = 0; i < n; ++i) {
+        values[indices[i]] = subArr[i];
+    }
+
+    return values;
+}
+
+
+// Sort using a custom comparator
+/* exported lengthSorter */
+function lengthSorter(arr) {
+    'use strict';
+
+    return arr.sort((a, b) => {
+        if (a.length !== b.length) return b.length - a.length;
+        if (a < b) return -1;
+        if (a > b) return 1;
+        return 0;
+    });
+}
+
+
+// Spiral matrix
+/* exported spiralArray */
+function spiralArray(num) {
+    'use strict';
+
+    const lim = num * num;
+    const matrix = new Array(num);
+
+    let row = 0;
+    let col = 0;
+    let minRow = 0;
+    let maxRow = num - 1;
+    let minCol = 0;
+    let maxCol = num - 1;
+    let direction = 0;
+
+    for (num = 0; num < matrix.length; ++num) {
+        matrix[num] = new Array(matrix.length);
+    }
+
+    for (num = 0; num < lim; ++num) {
+
+        matrix[row][col] = num;
+
+        switch (direction) {
+
+        // To right
+        case 0:
+            if (col < maxCol) {
+                ++col;
+            } else {
+                ++row;
+                ++minRow;
+                direction = 1;
+            }
+            break;
+
+        // To bottom
+        case 1:
+            if (row < maxRow) {
+                ++row;
+            } else {
+                --col;
+                --maxCol;
+                direction = 2;
+            }
+            break;
+
+        // To left
+        case 2:
+            if (col > minCol) {
+                --col;
+            } else {
+                --row;
+                --maxRow;
+                direction = 3;
+            }
+            break;
+
+        // To top
+        default:
+            if (row > minRow) {
+                --row;
+            } else {
+                ++col;
+                ++minCol;
+                direction = 0;
+            }
+        }
+
+    }
+
+    return matrix;
+}
+
+
+// Sum of squares
+/* exported sumsq */
+function sumsq(arr) {
+    'use strict';
+
+    return arr.reduce((sum, num) => sum + num ** 2, 0);
 }
 
 
