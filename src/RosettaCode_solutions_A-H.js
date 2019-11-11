@@ -46,6 +46,9 @@
  * Day of the week
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/day-of-the-week/
  *
+ * Dot product
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/dot-product
+ *
  * Element-wise operations
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/element-wise-operations/
  *
@@ -60,6 +63,9 @@
  *
  * Fibonacci sequence
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/fibonacci-sequence/
+ *
+ * Gamma function
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/gamma-function
  *
  * Gray code
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/gray-code/
@@ -506,6 +512,26 @@ function findXmasSunday(start, end) {
 }
 
 
+// Dot product
+/* exported dotProduct */
+function dotProduct(arr1, arr2) {
+    'use strict';
+
+    const n = arr1.length;
+
+    if (n !== arr2.length) return NaN;
+
+    let sum = 0;
+    let i = 0;
+
+    for (i; i < n; ++i) {
+        sum += arr1[i] * arr2[i];
+    }
+
+    return sum;
+}
+
+
 // Element-wise operations
 /* exported operation */
 function operation(op, arr1, otherArg) {
@@ -656,6 +682,39 @@ function fibonacci(n) {
     }
 
     return a;
+}
+
+
+// Gamma function
+/* exported gamma */
+function gamma(x) {
+    'use strict';
+
+    // Use Lanczos' approximation
+    // https://en.wikipedia.org/wiki/Lanczos_approximation
+    // http://www.rskey.org/CMS/index.php/the-library/11
+
+    const coefficients = [
+        676.5203681218851,
+        -1259.1392167224028,
+        771.32342877765313,
+        -176.61502916214059,
+        12.507343278686905,
+        -0.13857109526572012,
+        9.9843695780195716e-6,
+        1.5056327351493116e-7
+    ];
+
+    if (x < 0.5) {
+        return Math.PI / (Math.sin(Math.PI * x) * gamma(1 - x)); // reflection formula
+    }
+
+    --x;
+
+    const n = coefficients.reduce((sum, p, i) => sum + p / (x + i + 1), 0.99999999999980993);
+    const t = x + coefficients.length - 0.5;
+
+    return Math.sqrt(2 * Math.PI) * t ** (x + 0.5) * Math.exp(-t) * n;
 }
 
 

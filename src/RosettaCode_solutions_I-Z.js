@@ -16,6 +16,9 @@
  * Josephus problem
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/josephus-problem/
  *
+ * Largest int from concatenated ints
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/largest-int-from-concatenated-ints
+ *
  * Last Friday of each month
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/last-friday-of-each-month
  *
@@ -36,6 +39,9 @@
  *
  * Spiral matrix
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/spiral-matrix
+ *
+ * Split a character string based on change of character
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/split-a-character-string-based-on-change-of-character
  *
  * Sum of squares
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/sum-of-squares
@@ -287,6 +293,18 @@ function josephus(init, kill) {
 }
 
 
+// Largest int from concatenated ints
+/* exported maxCombine */
+function maxCombine(xs) {
+    'use strict';
+
+    // Sort concatenated numbers in descending order
+    const arr = xs.sort((a, b) => parseInt(`${b}${a}`) - parseInt(`${a}${b}`));
+
+    return parseInt(arr.join(''));
+}
+
+
 // Last Friday of each month
 /* exported lastFriday */
 function lastFriday(year, month) {
@@ -450,6 +468,33 @@ function spiralArray(num) {
     }
 
     return matrix;
+}
+
+
+// Split a character string based on change of character
+/* exported split */
+function split(str) {
+    'use strict';
+
+    const groups = [];
+    let char = str[0];
+    let size = 1;
+
+    str = str.slice(1);
+
+    for (const c of str) {
+        if (char === c) {
+            ++size;
+        } else {
+            groups.push(char.repeat(size));
+            char = c;
+            size = 1;
+        }
+    }
+
+    groups.push(char.repeat(size));
+
+    return groups;
 }
 
 
