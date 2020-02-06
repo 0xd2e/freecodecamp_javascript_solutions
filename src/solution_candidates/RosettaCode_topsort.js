@@ -182,7 +182,7 @@ function findZeroDegreeNodes(degrees) {
      * The sink vertex is a vertex with outdegree zero.
      */
 
-    return Object.keys(degrees).filter(node => degrees[node] === 0);
+    return Object.keys(degrees).filter((node) => degrees[node] === 0);
 }
 
 

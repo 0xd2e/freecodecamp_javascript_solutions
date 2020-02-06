@@ -314,7 +314,7 @@ function testTopologicalSort(fn, useAnswers) {
         if (!Array.isArray(out)) return false;
         if (ans.length === 0 && out.length === 0) return true;
         const stringified = out.join(' ');
-        return ans.some(value => value === stringified);
+        return ans.some((value) => value === stringified);
     };
 
     // Check if a node comes after the node(s) it points to / depends on

@@ -41,7 +41,7 @@ function formatString(text, substitutes) {
         throw new Error('There is nothing to be substituted');
     } else if (!Array.isArray(substitutes)) {
         throw new Error('Substitutes must be placed in an array');
-    } else if (substitutes.some(sub => `${sub}`.includes(placeholder))) {
+    } else if (substitutes.some((sub) => `${sub}`.includes(placeholder))) {
         throw new Error(`Substitutes cannot contain placeholder "${placeholder}"`);
     } else if (substitutes.length === n) {
         for (const sub of substitutes) {
