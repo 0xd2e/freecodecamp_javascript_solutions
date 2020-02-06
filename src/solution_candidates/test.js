@@ -15,6 +15,7 @@ const {
 const {
     add12Hours,
     equilibrium,
+    farey,
     maximumSubsequence
 } = require('./RosettaCode.js');
 
@@ -89,6 +90,7 @@ function runTests() {
 
     testSolution(add12Hours, 'Rosetta Code: Date manipulation problem', true);
     testSolution(equilibrium, 'Rosetta Code: Equilibrium index problem', false);
+    testSolution(farey, 'Rosetta Code: Farey sequence problem', false);
     testSolution(maximumSubsequence, 'Rosetta Code: Greatest subsequential sum problem', false);
     testSolution(longestCollatzSequence, 'Project Euler: Problem 14 - Longest Collatz sequence', true);
     printCollatzCacheSize();

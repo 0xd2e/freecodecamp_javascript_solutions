@@ -7,6 +7,9 @@
  * Equilibrium index
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/equilibrium-index/
  *
+ * Farey sequence
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/farey-sequence
+ *
  * Greatest subsequential sum
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/greatest-subsequential-sum/
  */
@@ -127,6 +130,35 @@ function equilibrium(arr) {
 }
 
 
+// Farey sequence
+/* exported farey */
+function farey(n) {
+    'use strict';
+
+    // Print the n'th Farey sequence in ascending order,
+    // but without first (0/1) and last (1/1) terms.
+    // Based on: https://en.wikipedia.org/wiki/Farey_sequence
+
+    if (n === 1) return [''];
+
+    let a = 0;
+    let b = 1;
+    let c = 1;
+    let d = n;
+
+    const lim = n;
+    const seq = [`${a}/${b}`];
+
+    while (c <= lim) {
+        n = Math.floor((lim + b) / d);
+        [a, b, c, d] = [c, d, n * c - a, n * d - b];
+        seq.push(`${a}/${b}`);
+    }
+
+    return seq.slice(1, -1);
+}
+
+
 // Greatest subsequential sum
 /* exported maximumSubsequence */
 function maximumSubsequence(arr) {
@@ -167,5 +199,6 @@ function maximumSubsequence(arr) {
 module.exports = {
     add12Hours,
     equilibrium,
+    farey,
     maximumSubsequence
 };

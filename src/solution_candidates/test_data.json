@@ -32,6 +32,22 @@
             [[], []]
         ]
     },
+    "farey":
+    {
+        "sources":
+        [
+            "https://github.com/freeCodeCamp/freeCodeCamp/blob/master/curriculum/challenges/english/08-coding-interview-prep/rosetta-code/farey-sequence.english.md",
+            "https://en.wikipedia.org/wiki/Farey_sequence"
+        ],
+        "cases":
+        [
+            [-9, []],
+            [1, [""]],
+            [2, ["1/2"]],
+            [3, ["1/3", "1/2", "2/3"]],
+            [4, ["1/4", "1/3", "1/2", "2/3", "3/4"]]
+        ]
+    },
     "maximumSubsequence":
     {
         "sources":
