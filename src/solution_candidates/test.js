@@ -33,14 +33,11 @@ function testSolution(fn, description, singleValue) {
      * fn -- reference to a function
      * description -- string, a brief description of the tested function
      * singleValue -- boolean, when set to true, the tested function is expected
-     *                to require one primitive value argument and return
-     *                one primitive value, otherwise the tested function
-     *                should have one array of primitives argument and return
-     *                one array of primitives
+     *                to return one primitive value, otherwise the tested function
+     *                should return one array of primitives
      *
-     * General test for a simple function with either
-     * one single primitive value input and one single primitive value output
-     * or one input array of primitives and one output array of primitives.
+     * General test for a simple function that takes one argument
+     * and returns either a single primitive value or an array of primitives.
      *
      * This function does not return any value.
      */
