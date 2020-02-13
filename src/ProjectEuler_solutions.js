@@ -13,6 +13,9 @@
  * Problem 9: Special Pythagorean triplet
  * https://learn.freecodecamp.org/coding-interview-prep/project-euler/problem-9-special-pythagorean-triplet
  *
+ * Problem 13: Large sum
+ * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-13-large-sum
+ *
  * Problem 36: Double-base palindromes
  * https://learn.freecodecamp.org/coding-interview-prep/project-euler/problem-36-double-base-palindromes/
  *
@@ -127,6 +130,42 @@ function specialPythagoreanTriplet(num) {
     }
 
     return answer ? a * b * c : 0;
+}
+
+
+// Problem 13: Large sum
+/* exported largeSum */
+function largeSum(numStrArr) {
+    'use strict';
+
+    const numStrLength = numStrArr[0].length;
+    const arrSizeFactor = Math.ceil(Math.log10(numStrArr.length));
+    const result = new Uint16Array(numStrLength + arrSizeFactor);
+    result.fill(0);
+
+    let resultPos = result.length;
+    let numStr;
+    let sum;
+    let i;
+
+    for (i = numStrLength - 1; i >= 0; --i) {
+
+        sum = 0;
+
+        for (numStr of numStrArr) {
+            sum += numStr[i] >> 0;
+        }
+
+        result[--resultPos] = sum;
+    }
+
+    for (i = result.length - 1; i > 0; --i) {
+        result[i - 1] += (result[i] / 10) >> 0;
+        result[i] %= 10;
+    }
+
+    i = result[0] > 0 ? 0 : 1;
+    return parseInt(result.slice(i, i + 10).join(''));
 }
 
 
