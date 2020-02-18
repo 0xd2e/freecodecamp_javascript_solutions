@@ -25,6 +25,9 @@
  * Leap year
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/leap-year
  *
+ * Left factorials
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/left-factorials
+ *
  * Sailors, coconuts and a monkey problem
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/sailors-coconuts-and-a-monkey-problem/
  *
@@ -333,6 +336,27 @@ function isLeapYear(year) {
 
     // It is not valid before start of the Gregorian callendar (1582)
     return (year % 4 === 0) && ((year % 100 !== 0) || (year % 400 === 0));
+}
+
+
+// Left factorials
+/* exported leftFactorial */
+function leftFactorial(n) {
+    'use strict';
+
+    // https://oeis.org/A003422
+    if (n === 0) return 0;
+
+    const lim = n;
+    let factorial = 1;
+    let sum = 1; // because 0! is 1
+
+    for (n = 1; n < lim; ++n) {
+        factorial *= n;
+        sum += factorial;
+    }
+
+    return sum;
 }
 
 

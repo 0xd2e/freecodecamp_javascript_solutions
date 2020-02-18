@@ -25,6 +25,9 @@
  * Circles of given radius through two points
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/circles-of-given-radius-through-two-points/
  *
+ * Combinations
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/combinations
+ *
  * Comma quibbling
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/comma-quibbling/
  *
@@ -63,6 +66,9 @@
  *
  * Fibonacci sequence
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/fibonacci-sequence/
+ *
+ * Fibonacci word
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/fibonacci-word
  *
  * Gamma function
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/gamma-function
@@ -282,6 +288,90 @@ function getCircles(...args) {
         +(Math.round(xy[0] + 'e+4') + 'e-4'), // eslint-disable-line prefer-template
         +(Math.round(xy[1] + 'e+4') + 'e-4') // eslint-disable-line prefer-template
     ]);
+}
+
+
+// Combinations
+function calcRangeProd(n, k) {
+    'use strict';
+
+    /*
+     * Inputs:
+     * n, k -- integer numbers, n >= k
+     *
+     * Return an integer, result of multiplications of consecutive
+     * integers from k to n (both ends included).
+     */
+
+    const lim = n;
+
+    for (k; k < lim; ++k) {
+        n *= k;
+    }
+
+    return n;
+}
+
+
+function calcBinomialCoeff(n, k) {
+    'use strict';
+
+    /*
+     * Inputs:
+     * n, k -- positive integer numbers, n >= k
+
+     * Return an integer, total number of combinations without repetition.
+     */
+
+    if (k < 0 || k > n) return 0;
+    if (k === 0 || k === n) return 1;
+    if (k === 1 || n - k === 1) return n;
+    return Math.round(calcRangeProd(n, k + 1) / calcRangeProd(n - k, 2));
+}
+
+
+/* exported combinations */
+function combinations(m, n) {
+    'use strict';
+
+    if (m === 1) {
+        return Array.from({ length: n }, (_, i) => [i]);
+    }
+
+    const subset = Uint8Array.from(Array(m).keys());
+    const sortedSubsets = [];
+    sortedSubsets.push([...subset]);
+
+    if (m === n) {
+        return sortedSubsets;
+    }
+
+    const size = calcBinomialCoeff(n, m);
+    const leftmostLim = n - m;
+    const rightmostLim = n - 1;
+    const subsetLastIndex = m - 1;
+    const finalSubset = Uint8Array.from({ length: m }, (_, i) => leftmostLim + i);
+    let i;
+
+    while (sortedSubsets.length < size) {
+
+        while (++subset[subsetLastIndex] <= rightmostLim) {
+            sortedSubsets.push([...subset]);
+        }
+
+        i = subsetLastIndex - 1;
+        while (subset[i] === finalSubset[i]) --i;
+
+        ++subset[i];
+
+        for (i; i < subsetLastIndex; ++i) {
+            subset[i + 1] = subset[i] + 1;
+        }
+
+        sortedSubsets.push([...subset]);
+    }
+
+    return sortedSubsets;
 }
 
 
@@ -682,6 +772,70 @@ function fibonacci(n) {
     }
 
     return a;
+}
+
+
+// Fibonacci word
+/* exported fibWord */
+function fibWord(n) {
+    'use strict';
+
+    /*
+     * https://github.com/freeCodeCamp/freeCodeCamp/blob/master/curriculum/challenges/english/08-coding-interview-prep/rosetta-code/fibonacci-word.english.md
+     *
+     * Original tests assume numbers obtained by using the change of base rule to evaluate
+     * logarithms (from natural to base 2 logarithms) when calculating the Shannon entropy.
+     * However, this function calculates base 2 logarithms directly. As a result of numerical
+     * errors, it fails some test cases in the current form.
+     *
+     * The function will pass all the original tests after making two adjustments:
+     * -- inserting additional auxiliary variable somewhere before the for loop
+     * "const ln2 = Math.log(2);"
+     * -- replacing the Shannon's entropy formula within the for loop
+     * (inside an object that is pushed to the sequence array)
+     * "Entropy: -1 * (prob1 * Math.log(prob1) / ln2 + prob0 * Math.log(prob0) / ln2),"
+     */
+
+    const sequence = [
+        { N: 1, Length: 1, Entropy: 0, Word: '1' }, /* eslint-disable-line object-curly-newline */
+        { N: 2, Length: 1, Entropy: 0, Word: '0' } /* eslint-disable-line object-curly-newline */
+    ];
+
+    // Track number of occurences of digit 1
+    let prevOneCount = 1;
+    let currOneCount = 0;
+
+    // Placeholders for references to objects from the sequence array
+    let a;
+    let b;
+
+    // Other auxiliary variables
+    let currWordLength;
+    let prob1;
+    let prob0;
+
+    const end = n;
+
+    for (n = 3; n <= end; ++n) {
+
+        // n referes to a position in the sequence and
+        // needs to be adjusted to be used as array index
+        [a, b] = sequence.slice(n - 3, n - 1);
+
+        [prevOneCount, currOneCount] = [currOneCount, prevOneCount + currOneCount];
+        currWordLength = b.Length + a.Length;
+        prob1 = currOneCount / currWordLength;
+        prob0 = 1 - prob1; // because every word in the sequence can contain only 1s and 0s
+
+        sequence.push({
+            N      : n,
+            Length : currWordLength,
+            Entropy: -1 * (prob1 * Math.log2(prob1) + prob0 * Math.log2(prob0)), // Shannon Entropy
+            Word   : `${b.Word}${a.Word}`
+        });
+    }
+
+    return sequence;
 }
 
 
