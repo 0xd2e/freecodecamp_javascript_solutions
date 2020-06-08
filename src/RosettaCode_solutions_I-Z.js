@@ -74,10 +74,10 @@ function IBeforeExceptC(word) {
     word = word.toLowerCase();
 
     // Check for rules violation
-    const breakedRule1 = word.includes('cie'); // "I before E when not preceded by C"
-    const breakedRule2 = (/[^c]ei/).test(word); // "E before I when preceded by C"
+    const violatedRule1 = word.includes('cie'); // "I before E when not preceded by C"
+    const violatedRule2 = (/[^c]ei/).test(word); // "E before I when preceded by C"
 
-    return !(breakedRule1 || breakedRule2);
+    return !(violatedRule1 || violatedRule2);
 }
 
 
