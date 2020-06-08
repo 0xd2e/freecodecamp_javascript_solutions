@@ -142,8 +142,8 @@ function largeSum(numStrArr) {
     'use strict';
 
     const numStrLength = numStrArr[0].length;
-    const arrSizeFactor = Math.ceil(Math.log10(numStrArr.length));
-    const result = new Uint16Array(numStrLength + arrSizeFactor);
+    const arrGrowthFactor = Math.ceil(Math.log10(numStrArr.length));
+    const result = new Uint16Array(numStrLength + arrGrowthFactor);
     result.fill(0);
 
     let resultPos = result.length;
