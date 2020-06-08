@@ -82,7 +82,7 @@ function IBeforeExceptC(word) {
 
 
 // IBAN
-const IBAN_FORMATS = {
+const IBAN_FORMATS = Object.freeze({
     AD: /^AD\d{2}\d{8}[a-zA-Z0-9]{12}$/, // Andorra
     AE: /^AE\d{2}\d{19}$/, // United Arab Emirates
     AL: /^AL\d{2}\d{8}[a-zA-Z0-9]{16}$/, // Albania
@@ -159,10 +159,10 @@ const IBAN_FORMATS = {
     VA: /^VA\d{2}\d{18}$/, // Vatican City State
     VG: /^VG\d{2}[A-Z]{4}\d{16}$/, // Virgin Islands
     XK: /^XK\d{2}\d{16}$/ // Kosovo
-};
+});
 
 
-const IBAN_SUBSTITUTION_TABLE = {
+const IBAN_SUBSTITUTION_TABLE = Object.freeze({
     A: '10',
     B: '11',
     C: '12',
@@ -189,7 +189,7 @@ const IBAN_SUBSTITUTION_TABLE = {
     X: '33',
     Y: '34',
     Z: '35'
-};
+});
 
 
 function modulo97(numStr) {
