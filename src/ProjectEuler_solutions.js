@@ -16,6 +16,9 @@
  * Problem 13: Large sum
  * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-13-large-sum
  *
+ * Problem 19: Counting Sundays
+ * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-19-counting-sundays
+ *
  * Problem 36: Double-base palindromes
  * https://learn.freecodecamp.org/coding-interview-prep/project-euler/problem-36-double-base-palindromes/
  *
@@ -166,6 +169,25 @@ function largeSum(numStrArr) {
 
     i = result[0] > 0 ? 0 : 1;
     return parseInt(result.slice(i, i + 10).join(''));
+}
+
+
+// Problem 19: Counting Sundays
+/* exported countingSundays */
+function countingSundays(firstYear, lastYear) {
+    'use strict';
+
+    // Plain and simple brute force solution
+
+    const d = new Date(firstYear, 0, 1);
+    let sundays = 0;
+
+    while (d.getFullYear() <= lastYear) {
+        if (d.getDay() === 0) ++sundays;
+        d.setMonth(d.getMonth() + 1);
+    }
+
+    return sundays;
 }
 
 
