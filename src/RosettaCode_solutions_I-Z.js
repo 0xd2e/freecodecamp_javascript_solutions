@@ -13,6 +13,9 @@
  * Iterated digits squaring
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/iterated-digits-squaring
  *
+ * Jaro distance
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/jaro-distance
+ *
  * Josephus problem
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/josephus-problem/
  *
@@ -48,6 +51,9 @@
  *
  * Sum of squares
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/sum-of-squares
+ *
+ * Symmetric difference
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/symmetric-difference
  *
  * Top rank per group
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/top-rank-per-group/
@@ -277,6 +283,57 @@ function iteratedSquare(n) {
     }
 
     return n;
+}
+
+
+// Jaro distance
+/* exported jaro */
+function jaro(str1, str2) {
+    'use strict';
+
+    // Rewritten from Python solution: https://rosettacode.org/wiki/Jaro_distance#Procedural
+
+    if (str1 === str2) return 1;
+
+    const maxMatchingDist = Math.floor(Math.max(str1.length, str2.length) / 2) - 1;
+    const matchingFlagsStr1 = new Int8Array(str1.length);
+    const matchingFlagsStr2 = new Int8Array(str2.length);
+
+    matchingFlagsStr1.fill(0);
+    matchingFlagsStr2.fill(0);
+
+    let m = 0; // number of matching characters
+    let i = 0;
+    let j; // index of a character in the second string
+    let t;
+
+    for (i; i < str1.length; ++i) {
+
+        // Lower and upper index bounds for a character in the second string defining a matching range
+        j = Math.max(0, i - maxMatchingDist);
+        t = Math.min(i + maxMatchingDist, str2.length);
+
+        for (j; j <= t; ++j) {
+            if (str1[i] !== str2[j] || matchingFlagsStr2[j] === 1) continue;
+            matchingFlagsStr1[i] = 1;
+            matchingFlagsStr2[j] = 1;
+            ++m;
+            break;
+        }
+    }
+
+    if (m === 0) return 0;
+
+    j = 0;
+    t = 0; // number of transpositions
+
+    for (i = 0; i < str1.length; ++i) {
+        if (matchingFlagsStr1[i] === 0) continue; // go to matching character in string 1
+        while (matchingFlagsStr2[j] === 0) ++j; // go to matching character in string 2
+        if (str1[i] !== str2[j++]) ++t;
+    }
+
+    return (m / str1.length + m / str2.length + (m - t / 2) / m) / 3;
 }
 
 
@@ -528,6 +585,29 @@ function sumsq(arr) {
     'use strict';
 
     return arr.reduce((sum, num) => sum + num ** 2, 0);
+}
+
+
+// Symmetric difference
+/* exported symmetricDifference */
+function symmetricDifference(arrA, arrB) {
+    'use strict';
+
+    // Based on:
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set#Implementing_basic_set_operations
+
+    const diff = new Set(arrA);
+    const setB = new Set(arrB);
+
+    for (const elem of setB) {
+        if (diff.has(elem)) {
+            diff.delete(elem);
+        } else {
+            diff.add(elem);
+        }
+    }
+
+    return [...diff].sort();
 }
 
 
