@@ -34,7 +34,7 @@ const showPdfInfo = (pdfData) => {
 
     console.log(`Number of pages: ${numrender} rendered / ${numpages} total`);
     console.log(`String content: ${text.length} characters / ${text.split('\n').length} lines`);
-    console.log('PDF parser/renderer version:', version);
+    console.log('Using PDF parser/renderer version:', version);
 
     const concatenate = ([key, value]) => `${key}: ${value}`;
 
@@ -58,7 +58,7 @@ const filterRows = (pdfData) => {
 
     const rows = pdfData.text.split('\n')
         .map((row) => row.trim())
-        .filter((row) => row);
+        .filter((row) => row); // remove empty lines
 
     const formats = rows.filter((row) => row.startsWith('BBAN structure'))
         .map((row) => row.slice(15)); // retain only second column
@@ -138,7 +138,7 @@ const convertFormats = (codes, formats) => {
     /*
      * Create a string for each country with a regular expression
      * pattern for verifying its IBAN format.
-     * It can be used in RegExp constructor.
+     * It is suited to RegExp constructor.
      *
      * Return an array of strings.
      */
@@ -146,9 +146,9 @@ const convertFormats = (codes, formats) => {
     const toRegExpPattern = (group) => {
         const [char, num] = group.split('!');
         switch (char) {
-            case 'n': return `\\d{${num}}`;
-            case 'a': return `[A-Z]{${num}}`;
-            case 'c': return `[a-zA-Z0-9]{${num}}`;
+            case 'n': return `\\d{${num}}`; // digit(s)
+            case 'a': return `[A-Z]{${num}}`; // uppercase letter(s)
+            case 'c': return `[a-zA-Z0-9]{${num}}`; // digits, uppercase letters, lowercase letters
             default: throw new Error(`Cannot convert unknown symbol '${char}'`);
         }
     };
@@ -202,10 +202,10 @@ const fetchConfig = {
     headers: {
         'Content-type': 'text/pdf; charset=UTF-8'
     },
-    follow: 0,
+    follow: 0, // maximum number of redirections, 0 forbids redirections
     timeout: 2000,
     compress: true,
-    size: 0
+    size: 0 // maximum response content size in bytes, 0 allows any size
 };
 
 
