@@ -212,7 +212,7 @@ const fetchConfig = {
 };
 
 
-fetch('https://www.swift.com/resource/iban-registry-pdf', fetchConfig)
+fetch('https://www.swift.com/sites/default/files/documents/iban_registry_0.pdf', fetchConfig)
     .then((response) => response.buffer())
     .then((pdfFileBuffer) => {
         console.log(`PDF file buffer size: ${pdfFileBuffer.length} bytes`);
