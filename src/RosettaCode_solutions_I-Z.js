@@ -31,8 +31,35 @@
  * Left factorials
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/left-factorials
  *
+ * Letter frequency
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/letter-frequency
+ *
+ * Linear congruential generator
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/linear-congruential-generator
+ *
+ * Look-and-say sequence
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/look-and-say-sequence
+ *
+ * Loop over multiple arrays simultaneously
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/loop-over-multiple-arrays-simultaneously
+ *
+ * Lucas-Lehmer test
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/lucas-lehmer-test
+ *
+ * Luhn test of credit card numbers
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/luhn-test-of-credit-card-numbers
+ *
+ * Lychrel numbers
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/lychrel-numbers
+ *
  * Sailors, coconuts and a monkey problem
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/sailors-coconuts-and-a-monkey-problem/
+ *
+ * SEDOLs
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/sedols
+ *
+ * Self Describing Numbers
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/self-describing-numbers
  *
  * Sort an array of composite structures
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/sort-an-array-of-composite-structures
@@ -417,6 +444,214 @@ function leftFactorial(n) {
 }
 
 
+// Letter frequency
+/* exported letterFrequency */
+function letterFrequency(txt) {
+    'use strict';
+
+    const freqTab = {};
+
+    for (const char of txt) {
+        freqTab[char] = (freqTab[char] || 0) + 1;
+    }
+
+    // eslint-disable-next-line no-confusing-arrow
+    return Object.entries(freqTab).sort((a, b) => a < b ? -1 : 1);
+}
+
+
+// Linear congruential generator
+/* exported linearCongGenerator */
+function linearCongGenerator(r, a, c, m, n) {
+    'use strict';
+
+    for (n; n > 0; --n) {
+        r = (a * r + c) % m;
+    }
+
+    return r;
+}
+
+
+// Look-and-say sequence
+/* exported lookAndSay */
+function lookAndSay(str) {
+    'use strict';
+
+    // Input str must be a nonempty string.
+
+    const groups = [];
+    let char = str[0];
+    let count = 1;
+
+    str = str.slice(1);
+
+    for (const c of str) {
+        if (c === char) {
+            ++count;
+        } else {
+            groups.push(`${count}${char}`);
+            char = c;
+            count = 1;
+        }
+    }
+
+    groups.push(`${count}${char}`);
+
+    return groups.join('');
+}
+
+
+// Loop over multiple arrays simultaneously
+/* exported loopSimult */
+function loopSimult(arr) {
+    'use strict';
+
+    // Input arr must be a nonempty nested array.
+    // All subarrays must have the same length.
+
+    const result = [];
+    const rowLength = arr[0].length; // number of columns
+    let i = 0; // column index
+    const select = (row) => row[i];
+
+    for (i; i < rowLength; ++i) {
+        result.push(arr.map(select).join('')); // concatenate column array
+    }
+
+    return result;
+}
+
+
+// Lucas-Lehmer test
+function isPrime(n) {
+    'use strict';
+
+    /*
+     * Input n must be a positive integer number.
+     * Return true if the given number is prime, false otherwise.
+     */
+
+    if (n <= 3) return n > 1;
+    if (!(n & 1)) return false; // if n is even
+
+    const lim = Math.floor(Math.sqrt(n)) + 1;
+    const num = n;
+
+    for (n = 3; n < lim; n += 2) {
+        if (!(num % n)) return false;
+    }
+
+    return true;
+}
+
+
+/* exported lucasLehmer */
+function lucasLehmer(p) {
+    'use strict';
+
+    /*
+     * Input p must be an integer number.
+     * Return true if the given Mersenne number is prime, false otherwise.
+     */
+
+    if (p === 2) return true;
+    if (!isPrime(p)) return false;
+
+    const q = BigInt(p);
+    const m = (1n << q) - 1n; // (2 ** p - 1)
+    let s = 4n;
+
+    /*
+     * Based on:
+     * https://en.wikipedia.org/wiki/Lucas-Lehmer_primality_test#Time_complexity
+     *
+     * In each of p - 2 iterations calculate (s * s - 2) % m
+     *
+     * Use bitwise operations to compute modulus of (nonnegative) s:
+     * -- s & m  is equivalent to s % (2 ** p)
+     * -- s >> q is equivalent to Math.floor(s / (2 ** p))
+     *
+     */
+
+    for(p = p - 2; p > 0; --p) {
+        s = s * s - 2n;
+        s = (s & m) + (s >> q);
+        if (s >= m) {
+            s -= m;
+        }
+    }
+
+    return !s;
+}
+
+
+// Luhn test of credit card numbers
+/* exported luhnTest */
+function luhnTest(str) {
+    'use strict';
+
+    // Input str must be a nonempty numeric string.
+
+    const sum = (total, num) => total + num;
+    const digits = Uint8Array.from(str.split('').reverse());
+
+    // Partial sum of the odd digits (adjusted to 0-based array indexing)
+    const s1 = digits.filter((_, i) => !(i & 1))
+        .reduce(sum, 0);
+
+    const s2 = digits.filter((_, i) => i & 1)
+        .map((num) => num < 5 ? num * 2 : (num - 5) * 2 + 1) // eslint-disable-line no-confusing-arrow
+        .reduce(sum, 0);
+
+    return !((s1 + s2) % 10);
+}
+
+
+// Lychrel numbers
+function reverse(n) {
+    'use strict';
+
+    /*
+     * Inputs:
+     * n -- positive BigInt number
+     *
+     * Return a BigInt number with digits in reversed order from the given number.
+     *
+     * Based on:
+     * https://www.mathblog.dk/project-euler-36-palindromic-base-10-2/
+     */
+
+    const base = 10n; // radix of a number system
+    let num = BigInt(n);
+    let reversed = 0n;
+
+    while (num > 0n) {
+        reversed = reversed * base + (num % base);
+        num = (num / base) >> 0n;
+    }
+
+    return reversed;
+}
+
+
+/* exported isLychrel */
+function isLychrel(n) {
+    'use strict';
+
+    let num = BigInt(n);
+    let rev = reverse(num);
+
+    for (n = 500; n > 0; --n) {
+        num += rev;
+        rev = reverse(num);
+        if (num === rev) return false;
+    }
+
+    return true;
+}
+
+
 // Sailors, coconuts and a monkey problem
 /* exported splitCoconuts */
 function splitCoconuts(n) {
@@ -424,6 +659,84 @@ function splitCoconuts(n) {
 
     // This equations are from: http://oeis.org/A002021
     return n & 1 ? (n ** n) - n + 1 : (n - 1) * ((n ** n) - 1);
+}
+
+
+// SEDOLs
+/* exported sedol */
+function sedol(input) {
+    'use strict';
+
+    if (input.length !== 6) return null;
+
+    const values = {
+        0: 0,
+        1: 1,
+        2: 2,
+        3: 3,
+        4: 4,
+        5: 5,
+        6: 6,
+        7: 7,
+        8: 8,
+        9: 9,
+        B: 11,
+        C: 12,
+        D: 13,
+        F: 15,
+        G: 16,
+        H: 17,
+        J: 19,
+        K: 20,
+        L: 21,
+        M: 22,
+        N: 23,
+        P: 25,
+        Q: 26,
+        R: 27,
+        S: 28,
+        T: 29,
+        V: 31,
+        W: 32,
+        X: 33,
+        Y: 34,
+        Z: 35,
+    };
+
+    for (const char of input) {
+        if (!values.hasOwnProperty(char)) return null;
+    }
+
+    const weights = [1, 3, 1, 7, 3, 9];
+    let checksum = 0;
+    let i = 0;
+
+    for (i; i < 6; ++i) {
+        checksum += weights[i] * values[input[i]];
+    }
+
+    checksum = (10 - (checksum % 10)) % 10;
+    return `${input}${checksum}`;
+}
+
+
+// Self Describing Numbers
+/* exported isSelfDescribing */
+function isSelfDescribing(num) {
+    'use strict';
+
+    const numstr = `${num}`;
+    let position = numstr.length - 1;
+    let counter;
+    let value;
+
+    for (position; position >= 0; --position) {
+        counter = numstr.split(`${position}`).length - 1; // nonoverlapping occurrences
+        value = parseInt(numstr[position]);
+        if (counter !== value) return false;
+    }
+
+    return true;
 }
 
 
