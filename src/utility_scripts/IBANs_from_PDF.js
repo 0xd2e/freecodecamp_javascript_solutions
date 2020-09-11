@@ -36,10 +36,7 @@ const showPdfInfo = (pdfData) => {
     console.log(`String content: ${text.length} characters / ${text.split('\n').length} lines`);
     console.log('PDF parser/renderer version:', version);
 
-    const concatenate = (keyValuePair) => {
-        const [key, value] = keyValuePair;
-        return `${key}: ${value}`;
-    };
+    const concatenate = ([key, value]) => `${key}: ${value}`;
 
     for (const [key, val] of Object.entries({ 'PDF info:': info, 'PDF metadata:': metadata })) {
         if (val) console.log([key, ...Object.entries(val).map(concatenate)].join('\n\t'));
