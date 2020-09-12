@@ -16,8 +16,17 @@
  * Problem 13: Large sum
  * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-13-large-sum
  *
+ * Problem 18: Maximum path sum I
+ * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-18-maximum-path-sum-i
+ *
  * Problem 19: Counting Sundays
  * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-19-counting-sundays
+ *
+ * Problem 20: Factorial digit sum
+ * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-20-factorial-digit-sum
+ *
+ * Problem 34: Digit factorials
+ * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-34-digit-factorials
  *
  * Problem 36: Double-base palindromes
  * https://learn.freecodecamp.org/coding-interview-prep/project-euler/problem-36-double-base-palindromes/
@@ -172,6 +181,39 @@ function largeSum(numStrArr) {
 }
 
 
+// Problem 18: Maximum path sum I
+/* exported maximumPathSumI */
+function maximumPathSumI(triangle) {
+    'use strict';
+
+    /*
+     * triangle | level
+     *     1    |     0
+     *    2 3   |     1
+     *   4 5 6  |     2
+     *
+     * Terms that are used interchangeably: level/row, path/route, triangle/pyramid.
+     * Each step in this bottom-up approach is a binary decision: false (left), true (right).
+     */
+
+    let lvl = triangle.length - 2; // second-to-last row index
+    const totals = Uint16Array.from(triangle[lvl + 1]);
+    let i;
+
+    for (lvl; lvl >= 0; --lvl) {
+        for (i = 0; i <= lvl; ++i) {
+            if (totals[i] < totals[i + 1]) {
+                totals[i] = totals[i + 1] + triangle[lvl][i];
+            } else {
+                totals[i] += triangle[lvl][i];
+            }
+        }
+    }
+
+    return totals[0];
+}
+
+
 // Problem 19: Counting Sundays
 /* exported countingSundays */
 function countingSundays(firstYear, lastYear) {
@@ -188,6 +230,76 @@ function countingSundays(firstYear, lastYear) {
     }
 
     return sundays;
+}
+
+
+// Problem 20: Factorial digit sum
+/* exported sumFactorialDigits */
+function sumFactorialDigits(n) {
+    'use strict';
+
+    if (n === 0) return 1;
+    if (n < 3) return n;
+
+    let factorial = BigInt(n);
+    let i = BigInt(n - 1);
+
+    for (i; i > 1n; --i) {
+        factorial *= i;
+        while (!(factorial % 10n)) factorial /= 10n; // truncate trailing zeros
+    }
+
+    return Uint8Array.from(factorial.toString())
+        .reduce((sum, dig) => sum + dig, 0);
+}
+
+
+// Problem 34: Digit factorials
+const digitsFactorialCache = Uint32Array.from('0123456789').map((n) => {
+    'use strict';
+
+    // Calculate the factorial of the given (index) digit
+
+    if (n === 0) return 1;
+    if (n < 3) return n;
+
+    let product = 2;
+
+    for (n; n > 2; --n) {
+        product *= n;
+    }
+
+    return product;
+});
+
+
+/* exported digitFactorial */
+function digitFactorial() {
+    'use strict';
+
+    const limit = 500000;
+    const numbers = [];
+    let sum = 0;
+    let num = 3;
+
+    // Auxiliary variables
+    let digitsFactorialSum;
+    let currNum;
+
+    for (num; num < limit; ++num) {
+        currNum = num;
+        digitsFactorialSum = 0;
+        while (currNum > 0) {
+            digitsFactorialSum += digitsFactorialCache[currNum % 10];
+            currNum = (currNum / 10) >> 0;
+        }
+        if (num === digitsFactorialSum) {
+            sum += num;
+            numbers.push(num);
+        }
+    }
+
+    return { sum, numbers };
 }
 
 
