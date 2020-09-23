@@ -12,7 +12,7 @@
     "author": "Maciej Struski",
     "private": true,
     "dependencies": {
-        "node-fetch": "^2.6.1",
+        "axios": "^0.20.0",
         "pdf-parse": "^1.1.1"
     },
     "devDependencies": {

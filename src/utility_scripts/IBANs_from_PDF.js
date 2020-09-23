@@ -17,7 +17,7 @@
  * Everything is performed in memory - no file is saved locally.
  */
 
-const fetch = require('node-fetch');
+const axios = require('axios');
 const pdfparse = require('pdf-parse');
 
 
@@ -186,23 +186,27 @@ const printResult = (data) => {
 };
 
 
-const fetchConfig = {
-    method: 'GET',
+const requestConfig = {
+    url: 'https://www.swift.com/sites/default/files/documents/iban_registry_0.pdf',
+    method: 'get',
     headers: {
         'Content-type': 'text/pdf; charset=UTF-8'
     },
-    follow: 0, // maximum number of redirections, 0 forbids redirections
-    timeout: 2000,
-    compress: true,
-    size: 0 // maximum response content size in bytes, 0 allows any size
+    timeout: 2000, // in milliseconds
+    withCredentials: false,
+    responseType: 'arraybuffer',
+    maxContentLength: 2097152, // maximum response content size in bytes (2MB)
+    maxRedirects: 0, // maximum number of redirections, 0 forbids redirections
+    decompress: true
 };
 
 
-fetch('https://www.swift.com/sites/default/files/documents/iban_registry_0.pdf', fetchConfig)
-    .then((response) => response.buffer())
-    .then((pdfFileBuffer) => {
-        console.log(`PDF file buffer size: ${pdfFileBuffer.length} bytes`);
-        const options = { max: 0, version: 'v1.10.100' };
+axios(requestConfig)
+    .then(({ data: pdfFileBuffer }) => {
+        console.log(`PDF file buffer size: ${pdfFileBuffer.byteLength} bytes`);
+        const options = { max: 0, version: 'v1.10.100' }; // use default options
+        // PDF parser may show a message: "Warning: TT: undefined function"
+        // It seems to be a false alarm: https://github.com/mozilla/pdf.js/issues/3768#issuecomment-36468349
         return pdfparse(pdfFileBuffer, options);
     })
     .then(showPdfInfo)
