@@ -26,7 +26,7 @@ parserOptions:
   ecmaVersion: 11
   sourceType: "script"
   ecmaFeatures:
-    impliedStrict: true
+    impliedStrict: false
     jsx: false
 rules:
   comma-dangle:
@@ -107,5 +107,5 @@ rules:
     - "error"
     - "always"
   strict:
-    - "off"
+    - "error"
     - "safe"
