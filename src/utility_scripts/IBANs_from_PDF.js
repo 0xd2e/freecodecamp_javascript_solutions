@@ -22,8 +22,6 @@ const pdfparse = require('pdf-parse');
 
 
 const showPdfInfo = (pdfData) => {
-    'use strict';
-
     /*
      * Print a short summary of the parsed PDF file and return
      * the PDF object so that it can be used again in a promise chain.
@@ -47,8 +45,6 @@ const showPdfInfo = (pdfData) => {
 
 
 const filterRows = (pdfData) => {
-    'use strict';
-
     /*
      * Extract necessary data and return it as a nested array:
      * 0. array of strings with ISO 3166-1 alpha-2 country codes;
@@ -83,7 +79,6 @@ const filterRows = (pdfData) => {
 
 
 const cleanCountryName = (name) => {
-    'use strict';
 
     if (name.endsWith(')')) {
         name = name.replace(' (The)', '');
@@ -98,8 +93,6 @@ const cleanCountryName = (name) => {
 
 
 const cleanFormats = (formats) => {
-    'use strict';
-
     /*
      * Group successive similar terms in BBAN and separate the groups
      * (to ease splitting individual BBAN).
@@ -133,8 +126,6 @@ const cleanFormats = (formats) => {
 
 
 const convertFormats = (codes, formats) => {
-    'use strict';
-
     /*
      * Create a string for each country with a regular expression
      * pattern for verifying its IBAN format.
@@ -167,8 +158,6 @@ const convertFormats = (codes, formats) => {
 
 
 const printResult = (data) => {
-    'use strict';
-
     /*
      * Print code, name, and IBAN regular expression of each country and return
      * the original data so that it can be used again in a promise chain.
