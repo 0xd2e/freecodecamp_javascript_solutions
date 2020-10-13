@@ -1,3 +1,5 @@
+'use strict';
+
 /*
  * ROSETTA CODE
  *
@@ -102,7 +104,6 @@
 // I before E except after C
 /* exported IBeforeExceptC */
 function IBeforeExceptC(word) {
-    'use strict';
 
     word = word.toLowerCase();
 
@@ -226,7 +227,6 @@ const IBAN_SUBSTITUTION_TABLE = Object.freeze({
 
 
 function modulo97(numStr) {
-    'use strict';
 
     /*
      * Input:
@@ -252,7 +252,6 @@ function modulo97(numStr) {
 
 /* exported isValid */
 function isValid(iban) {
-    'use strict';
 
     iban = iban.replace(/\s/g, ''); // remove all whitespace characters
 
@@ -274,7 +273,6 @@ function isValid(iban) {
 // Identity matrix
 /* exported idMatrix */
 function idMatrix(n) {
-    'use strict';
 
     const m = n;
     const matrix = [];
@@ -296,7 +294,6 @@ function idMatrix(n) {
 // Iterated digits squaring
 /* exported iteratedSquare */
 function iteratedSquare(n) {
-    'use strict';
 
     let sumSquaredDigits;
 
@@ -316,7 +313,6 @@ function iteratedSquare(n) {
 // Jaro distance
 /* exported jaro */
 function jaro(str1, str2) {
-    'use strict';
 
     // Rewritten from Python solution: https://rosettacode.org/wiki/Jaro_distance#Procedural
 
@@ -367,15 +363,9 @@ function jaro(str1, str2) {
 // Josephus problem
 /* exported josephus */
 function josephus(init, kill) {
-    'use strict';
-
     // Based on: https://en.wikipedia.org/wiki/Josephus_problem#The_general_case
     // For the positions numbered from 1 to n
-
-    if (init === 1) {
-        return 1;
-    }
-
+    if (init === 1) return 1;
     return ((josephus(init - 1, kill) + kill - 1) % init) + 1;
 }
 
@@ -383,11 +373,8 @@ function josephus(init, kill) {
 // Largest int from concatenated ints
 /* exported maxCombine */
 function maxCombine(xs) {
-    'use strict';
-
     // Sort concatenated numbers in descending order
     const arr = xs.sort((a, b) => parseInt(`${b}${a}`) - parseInt(`${a}${b}`));
-
     return parseInt(arr.join(''));
 }
 
@@ -395,7 +382,6 @@ function maxCombine(xs) {
 // Last Friday of each month
 /* exported lastFriday */
 function lastFriday(year, month) {
-    'use strict';
 
     // Last day of the given month
     const d = new Date(year, month, 0);
@@ -416,8 +402,6 @@ function lastFriday(year, month) {
 // Leap year
 /* exported isLeapYear */
 function isLeapYear(year) {
-    'use strict';
-
     // It is not valid before start of the Gregorian callendar (1582)
     return (year % 4 === 0) && ((year % 100 !== 0) || (year % 400 === 0));
 }
@@ -426,7 +410,6 @@ function isLeapYear(year) {
 // Left factorials
 /* exported leftFactorial */
 function leftFactorial(n) {
-    'use strict';
 
     // https://oeis.org/A003422
     if (n === 0) return 0;
@@ -447,7 +430,6 @@ function leftFactorial(n) {
 // Letter frequency
 /* exported letterFrequency */
 function letterFrequency(txt) {
-    'use strict';
 
     const freqTab = {};
 
@@ -463,7 +445,6 @@ function letterFrequency(txt) {
 // Linear congruential generator
 /* exported linearCongGenerator */
 function linearCongGenerator(r, a, c, m, n) {
-    'use strict';
 
     for (n; n > 0; --n) {
         r = (a * r + c) % m;
@@ -476,7 +457,6 @@ function linearCongGenerator(r, a, c, m, n) {
 // Look-and-say sequence
 /* exported lookAndSay */
 function lookAndSay(str) {
-    'use strict';
 
     // Input str must be a nonempty string.
 
@@ -505,7 +485,6 @@ function lookAndSay(str) {
 // Loop over multiple arrays simultaneously
 /* exported loopSimult */
 function loopSimult(arr) {
-    'use strict';
 
     // Input arr must be a nonempty nested array.
     // All subarrays must have the same length.
@@ -525,7 +504,6 @@ function loopSimult(arr) {
 
 // Lucas-Lehmer test
 function isPrime(n) {
-    'use strict';
 
     /*
      * Input n must be a positive integer number.
@@ -548,7 +526,6 @@ function isPrime(n) {
 
 /* exported lucasLehmer */
 function lucasLehmer(p) {
-    'use strict';
 
     /*
      * Input p must be an integer number.
@@ -589,7 +566,6 @@ function lucasLehmer(p) {
 // Luhn test of credit card numbers
 /* exported luhnTest */
 function luhnTest(str) {
-    'use strict';
 
     // Input str must be a nonempty numeric string.
 
@@ -610,7 +586,6 @@ function luhnTest(str) {
 
 // Lychrel numbers
 function reverse(n) {
-    'use strict';
 
     /*
      * Inputs:
@@ -637,7 +612,6 @@ function reverse(n) {
 
 /* exported isLychrel */
 function isLychrel(n) {
-    'use strict';
 
     let num = BigInt(n);
     let rev = reverse(num);
@@ -655,8 +629,6 @@ function isLychrel(n) {
 // Sailors, coconuts and a monkey problem
 /* exported splitCoconuts */
 function splitCoconuts(n) {
-    'use strict';
-
     // This equations are from: http://oeis.org/A002021
     return n & 1 ? (n ** n) - n + 1 : (n - 1) * ((n ** n) - 1);
 }
@@ -665,7 +637,6 @@ function splitCoconuts(n) {
 // SEDOLs
 /* exported sedol */
 function sedol(input) {
-    'use strict';
 
     if (input.length !== 6) return null;
 
@@ -723,7 +694,6 @@ function sedol(input) {
 // Self Describing Numbers
 /* exported isSelfDescribing */
 function isSelfDescribing(num) {
-    'use strict';
 
     const numstr = `${num}`;
     let position = numstr.length - 1;
@@ -743,8 +713,6 @@ function isSelfDescribing(num) {
 // Sort an array of composite structures
 /* exported sortByKey */
 function sortByKey(arr) {
-    'use strict';
-
     return arr.sort((a, b) => a.key - b.key);
 }
 
@@ -752,7 +720,6 @@ function sortByKey(arr) {
 // Sort disjoint sublist
 /* exported sortDisjoint */
 function sortDisjoint(values, indices) {
-    'use strict';
 
     const subArr = [];
     const n = indices.length;
@@ -778,8 +745,6 @@ function sortDisjoint(values, indices) {
 // Sort using a custom comparator
 /* exported lengthSorter */
 function lengthSorter(arr) {
-    'use strict';
-
     return arr.sort((a, b) => {
         if (a.length !== b.length) return b.length - a.length;
         if (a < b) return -1;
@@ -792,7 +757,6 @@ function lengthSorter(arr) {
 // Spiral matrix
 /* exported spiralArray */
 function spiralArray(num) {
-    'use strict';
 
     const lim = num * num;
     const matrix = new Array(num);
@@ -868,7 +832,6 @@ function spiralArray(num) {
 // Split a character string based on change of character
 /* exported split */
 function split(str) {
-    'use strict';
 
     const groups = [];
     let char = str[0];
@@ -895,8 +858,6 @@ function split(str) {
 // Sum of squares
 /* exported sumsq */
 function sumsq(arr) {
-    'use strict';
-
     return arr.reduce((sum, num) => sum + num ** 2, 0);
 }
 
@@ -904,7 +865,6 @@ function sumsq(arr) {
 // Symmetric difference
 /* exported symmetricDifference */
 function symmetricDifference(arrA, arrB) {
-    'use strict';
 
     // Based on:
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set#Implementing_basic_set_operations
@@ -927,7 +887,6 @@ function symmetricDifference(arrA, arrB) {
 // Top rank per group
 /* exported topRankPerGroup */
 function topRankPerGroup(n, data, groupby, rankby) {
-    'use strict';
 
     if (n < 0) {
         return undefined;
@@ -961,7 +920,6 @@ function topRankPerGroup(n, data, groupby, rankby) {
 // Towers of Hanoi
 /* exported towerOfHanoi */
 function towerOfHanoi(num, source, target, auxiliary) {
-    'use strict';
 
     const moves = [];
 
@@ -983,7 +941,6 @@ function towerOfHanoi(num, source, target, auxiliary) {
 // Vector cross product
 /* exported crossProduct */
 function crossProduct() {
-    'use strict';
 
     if (arguments.length !== 2) {
         return null;
@@ -1009,7 +966,6 @@ function crossProduct() {
 // Vector dot product
 /* exported dotProduct */
 function dotProduct() {
-    'use strict';
 
     let vectors;
 

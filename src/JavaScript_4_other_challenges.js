@@ -1,3 +1,5 @@
+'use strict';
+
 /*
  * 1. Find the Symmetric Difference
  * https://learn.freecodecamp.org/coding-interview-prep/algorithms/find-the-symmetric-difference/
@@ -19,7 +21,6 @@
 // Find the Symmetric Difference
 /* exported sym */
 function sym(...args) {
-    // 'use strict';
 
     // From both sets remove common elements so that each set contains only unique values.
 
@@ -50,7 +51,6 @@ function sym(...args) {
 // Inventory Update
 /* exported updateInventory */
 function updateInventory(curInv, newInv) {
-    'use strict';
 
     // Mutate (change values in place) and return a reference to the given current inventory list.
 
@@ -77,7 +77,6 @@ function updateInventory(curInv, newInv) {
 
 // No Repeats Please
 function generatePermutations(str) {
-    'use strict';
 
     // Heap's algorithm: https://en.wikipedia.org/wiki/Heap%27s_algorithm
 
@@ -112,7 +111,6 @@ function generatePermutations(str) {
 
 
 function factorialize(num) {
-    'use strict';
 
     let result = 1;
 
@@ -126,7 +124,6 @@ function factorialize(num) {
 
 /* exported permAlone */
 function permAlone(str) {
-    'use strict';
 
     // Count the number of unique characters
     let n = (new Set(str)).size;
@@ -157,7 +154,6 @@ function permAlone(str) {
 // Pairwise
 /* exported pairwise */
 function pairwise(arr, arg) {
-    'use strict';
 
     const indexes = [];
     const len = arr.length;

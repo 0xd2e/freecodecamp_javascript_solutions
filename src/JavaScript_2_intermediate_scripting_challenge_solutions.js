@@ -1,3 +1,5 @@
+'use strict';
+
 /*
  * INTERMEDIATE ALGORITHM SCRIPTING
  *
@@ -69,7 +71,6 @@
 // Sum All Numbers in a Range
 /* exported sumAll */
 function sumAll(arr) {
-    'use strict';
 
     let [low, sum] = arr;
 
@@ -90,7 +91,6 @@ function sumAll(arr) {
 // Diff Two Arrays
 /* exported diffArray */
 function diffArray(arr1, arr2) {
-    'use strict';
 
     const set1 = new Set(arr1);
     const set2 = new Set(arr2);
@@ -117,7 +117,6 @@ function diffArray(arr1, arr2) {
 // Seek and Destroy
 /* exported destroyer */
 function destroyer(arr) {
-    'use strict';
 
     // Additional argument(s)
     const [, ...args] = arguments;
@@ -133,7 +132,6 @@ function destroyer(arr) {
 
 /* exported mutatingDestroyer */
 function mutatingDestroyer(arr, ...args) {
-    // 'use strict';
 
     // Mutate (change values in place) and return a reference to the given array.
 
@@ -155,7 +153,6 @@ function mutatingDestroyer(arr, ...args) {
 // Wherefore art thou
 /* exported whatIsInAName */
 function whatIsInAName(collection, source) {
-    'use strict';
 
     const arr = [];
 
@@ -186,8 +183,6 @@ function whatIsInAName(collection, source) {
 // Spinal Tap Case
 /* exported spinalCase */
 function spinalCase(str) {
-    'use strict';
-
     return str
         .trim()
         .replace(/[ _]|<\w*>/g, '-')
@@ -199,7 +194,6 @@ function spinalCase(str) {
 // Pig Latin
 /* exported translatePigLatin */
 function translatePigLatin(str) {
-    'use strict';
 
     str = str.trim().toLowerCase();
 
@@ -223,7 +217,6 @@ function translatePigLatin(str) {
 // Search and Replace
 /* exported myReplace */
 function myReplace(str, before, after) {
-    'use strict';
 
     const regex = new RegExp(before, 'ig');
     const firstChar = after[0].toLowerCase() + after[0].toUpperCase();
@@ -244,7 +237,6 @@ function myReplace(str, before, after) {
 // DNA Pairing
 /* exported pairElement */
 function pairElement(str) {
-    'use strict';
 
     const pairs = {
         A: 'T',
@@ -261,7 +253,6 @@ function pairElement(str) {
 /* exported fearNotLetter */
 // eslint-disable-next-line consistent-return
 function fearNotLetter(str) {
-    'use strict';
 
     const letters = 'abcdefghijklmnopqrstuvwxyz';
 
@@ -280,7 +271,6 @@ function fearNotLetter(str) {
 // Sorted Union
 /* exported uniteUnique */
 function uniteUnique(arr) {
-    'use strict';
 
     // Perform only naive/shallow check of valus in argument arrays,
     // i.e. any sub-array of the nested argument array is consider
@@ -304,7 +294,6 @@ function uniteUnique(arr) {
 // Convert HTML Entities
 /* exported convertHTML */
 function convertHTML(str) {
-    'use strict';
 
     const symbols = {
         '&': '&amp;',
@@ -322,7 +311,6 @@ function convertHTML(str) {
 // Sum All Odd Fibonacci Numbers
 /* exported sumFibs */
 function sumFibs(num) {
-    'use strict';
 
     let sum = 1;
     let a = 1;
@@ -340,7 +328,6 @@ function sumFibs(num) {
 // Sum All Primes
 /* exported sumPrimes */
 function sumPrimes(int) {
-    'use strict';
 
     if (int <= 10) {
         // eslint-disable-next-line no-confusing-arrow
@@ -393,7 +380,6 @@ function sumPrimes(int) {
 
 // Smallest Common Multiple
 function findGreatestCommonDivisor(a, b) {
-    'use strict';
 
     // Use Euclidean algorithm to find Greatest Common Divisor.
 
@@ -419,7 +405,6 @@ function findGreatestCommonDivisor(a, b) {
 
 /* exported smallestCommons */
 function smallestCommons(arr) {
-    'use strict';
 
     // Find Greatest Common Divisor and use it to find Least Common Multiple.
 
@@ -439,12 +424,8 @@ function smallestCommons(arr) {
 // Drop it
 /* exported dropElements */
 function dropElements(arr, func) {
-    'use strict';
-
     let i = 0;
-
-    while (!func(arr[i])) i++;
-
+    while (!func(arr[i])) ++i;
     return arr.slice(i);
 }
 
@@ -452,9 +433,9 @@ function dropElements(arr, func) {
 // Steamroller
 /* exported steamrollArray */
 function steamrollArray(arr) {
-    'use strict';
 
     // Return a flattened version of the given (nested) array.
+    // Same as: return arr.flat(Infinity);
 
     const flat = [];
 
@@ -475,7 +456,6 @@ function steamrollArray(arr) {
 // Binary Agents
 /* exported binaryAgent */
 function binaryAgent(str) {
-    'use strict';
 
     const sentence = [];
 
@@ -493,7 +473,6 @@ function binaryAgent(str) {
 // Everything Be True
 /* exported truthCheck */
 function truthCheck(collection, pre) {
-    'use strict';
 
     let obj;
 
@@ -511,7 +490,6 @@ function truthCheck(collection, pre) {
 /* exported addTogether */
 // eslint-disable-next-line consistent-return
 function addTogether() {
-    'use strict';
 
     if (arguments.length === 2 && typeof arguments[0] === 'number' && typeof arguments[1] === 'number') {
         return arguments[0] + arguments[1];
@@ -527,7 +505,6 @@ function addTogether() {
 // Make a Person
 /* exported Person */
 const Person = function (firstAndLast) {
-    'use strict';
 
     /* eslint func-names: "off" */
 
@@ -574,12 +551,9 @@ class ModernPerson {
     /* eslint no-underscore-dangle: ["error", { "allowAfterThis": true }] */
 
     constructor(firstAndLast) {
-        'use strict';
-
         this._firstName = '';
         this._lastName = '';
         this._fullName = '';
-
         this.fullName = firstAndLast;
     }
 
@@ -614,7 +588,6 @@ class ModernPerson {
 // Map the Debris
 /* exported orbitalPeriod */
 function orbitalPeriod(arr) {
-    'use strict';
 
     // The standard gravitational parameter of Earth, in km^+3*s^-2
     // Product of the gravitational constant and Earth's mass

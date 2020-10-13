@@ -1,3 +1,5 @@
+'use strict';
+
 /*
  * ROSETTA CODE
  *
@@ -96,7 +98,6 @@
 // 100 doors
 /* exported getFinalOpenedDoors */
 function getFinalOpenedDoors(numDoors) {
-    'use strict';
 
     // Doors are numbered starting from 1.
     // Positive number indicates that a door is opened.
@@ -122,8 +123,6 @@ function getFinalOpenedDoors(numDoors) {
 // Accumulator factory
 /* exported accumulator */
 function accumulator(sum) {
-    'use strict';
-
     return (num) => {
         sum += num;
         return sum;
@@ -134,18 +133,9 @@ function accumulator(sum) {
 // Ackermann function
 /* exported ack */
 function ack(m, n) {
-    'use strict';
-
     // Assumption: m and n are natural numbers (non-negative integers)
-
-    if (m === 0) {
-        return n + 1;
-    }
-
-    if (n === 0) {
-        return ack(m - 1, 1);
-    }
-
+    if (m === 0) return n + 1;
+    if (n === 0) return ack(m - 1, 1);
     return ack(m - 1, ack(m, n - 1));
 }
 
@@ -153,7 +143,6 @@ function ack(m, n) {
 // Averages/Mode
 /* exported mode */
 function mode(arr) {
-    'use strict';
 
     const counts = {};
 
@@ -172,7 +161,6 @@ function mode(arr) {
 // Averages/Pythagorean means
 /* exported pythagoreanMeans */
 function pythagoreanMeans(rangeArr) {
-    'use strict';
 
     const n = rangeArr.length;
     const sum = rangeArr.reduce((total, num) => total + num, 0);
@@ -197,12 +185,8 @@ function pythagoreanMeans(rangeArr) {
 // Averages/Root mean square
 /* exported rms */
 function rms(arr) {
-    'use strict';
-
     // Return Root Mean Square of numbers in the given array.
-
     const sumSquares = arr.reduce((sum, num) => sum + num * num, 0);
-
     return Math.sqrt(sumSquares / arr.length);
 }
 
@@ -210,7 +194,6 @@ function rms(arr) {
 // Balanced brackets
 /* exported isBalanced */
 function isBalanced(str) {
-    'use strict';
 
     const bracketsCount = {
         ']': 0,
@@ -238,7 +221,6 @@ function isBalanced(str) {
 // Circles of given radius through two points
 /* exported getCircles */
 function getCircles(...args) {
-    // 'use strict';
 
     // Based on: http://mathforum.org/library/drmath/view/53027.html
 
@@ -293,7 +275,6 @@ function getCircles(...args) {
 
 // Combinations
 function calcRangeProd(n, k) {
-    'use strict';
 
     /*
      * Inputs:
@@ -314,7 +295,6 @@ function calcRangeProd(n, k) {
 
 
 function calcBinomialCoeff(n, k) {
-    'use strict';
 
     /*
      * Inputs:
@@ -332,7 +312,6 @@ function calcBinomialCoeff(n, k) {
 
 /* exported combinations */
 function combinations(m, n) {
-    'use strict';
 
     if (m === 1) {
         return Array.from({ length: n }, (_, i) => [i]);
@@ -378,7 +357,6 @@ function combinations(m, n) {
 // Comma quibbling
 /* exported quibble */
 function quibble(words) {
-    'use strict';
 
     switch (words.length) {
     case 0: return '{}';
@@ -396,7 +374,6 @@ function quibble(words) {
 // Compare a list of strings
 /* exported allEqual */
 function allEqual(arr) {
-    'use strict';
 
     switch (arr.length) {
     case 0: return true;
@@ -411,7 +388,6 @@ function allEqual(arr) {
 
 /* exported azSorted */
 function azSorted(arr) {
-    'use strict';
 
     switch (arr.length) {
     case 0: return true;
@@ -436,7 +412,6 @@ function azSorted(arr) {
 // Convert seconds to compound duration
 /* exported convertSeconds */
 function convertSeconds(seconds) {
-    'use strict';
 
     const units = [
         'wk',
@@ -473,11 +448,8 @@ function convertSeconds(seconds) {
 // Cumulative standard deviation
 /* exported standardDeviation */
 function standardDeviation(arr) {
-    'use strict';
-
     const mean = arr.reduce((sum, num) => sum + num, 0) / arr.length;
     const variance = arr.reduce((sum, num) => sum + (num - mean) ** 2, 0) / arr.length;
-
     // Standard deviation for a population, rounded to 3 decimal places
     return Math.round(Math.sqrt(variance) * 1000) / 1000;
 }
@@ -486,7 +458,6 @@ function standardDeviation(arr) {
 // CUSIP
 /* exported isCusip */
 function isCusip(str) {
-    'use strict';
 
     // Based on: https://en.wikipedia.org/wiki/CUSIP#Check_digit_pseudocode
 
@@ -558,7 +529,6 @@ function isCusip(str) {
 // Date format
 /* exported getDateFormats */
 function getDateFormats() {
-    'use strict';
 
     const now = new Date();
     const loc = 'en-US';
@@ -584,7 +554,6 @@ function getDateFormats() {
 // Day of the week
 /* exported findXmasSunday */
 function findXmasSunday(start, end) {
-    'use strict';
 
     const date = new Date(start, 11, 25);
     const xmasSundayYears = [];
@@ -605,7 +574,6 @@ function findXmasSunday(start, end) {
 // Dot product
 /* exported dotProduct */
 function dotProduct(arr1, arr2) {
-    'use strict';
 
     const n = arr1.length;
 
@@ -625,7 +593,6 @@ function dotProduct(arr1, arr2) {
 // Element-wise operations
 /* exported operation */
 function operation(op, arr1, otherArg) {
-    'use strict';
 
     // Assume that arr1 (always) and arg2 (if it is not a number)
     // are valid matrixes. The valid matrix is a 2d array of numbers
@@ -674,7 +641,6 @@ function operation(op, arr1, otherArg) {
 // Entropy
 /* exported entropy */
 function entropy(str) {
-    'use strict';
 
     // Return Shannon entropy of the given string.
 
@@ -693,7 +659,6 @@ function entropy(str) {
 
 // Evaluate binomial coefficients
 function factorial(num, out) {
-    'use strict';
 
     // Assumption: num > out
     out = !out ? 1 : out + 1;
@@ -709,7 +674,6 @@ function factorial(num, out) {
 
 /* exported binom */
 function binom(n, k) {
-    'use strict';
 
     if (k === 0 || k === n) {
         return 1;
@@ -735,7 +699,6 @@ function binom(n, k) {
 // Factors of an integer
 /* exported factors */
 function factors(num) {
-    'use strict';
 
     if (num === 1) return [1];
 
@@ -761,7 +724,6 @@ function factors(num) {
 // Fibonacci sequence
 /* exported fibonacci */
 function fibonacci(n) {
-    'use strict';
 
     let a = 0;
     let b = 1;
@@ -778,7 +740,6 @@ function fibonacci(n) {
 // Fibonacci word
 /* exported fibWord */
 function fibWord(n) {
-    'use strict';
 
     /*
      * https://github.com/freeCodeCamp/freeCodeCamp/blob/master/curriculum/challenges/english/08-coding-interview-prep/rosetta-code/fibonacci-word.english.md
@@ -842,7 +803,6 @@ function fibWord(n) {
 // Gamma function
 /* exported gamma */
 function gamma(x) {
-    'use strict';
 
     // Use Lanczos' approximation
     // https://en.wikipedia.org/wiki/Lanczos_approximation
@@ -875,7 +835,6 @@ function gamma(x) {
 // Gray code
 /* exported gray */
 function gray(enc, num) {
-    'use strict';
 
     if (enc) {
         return num ^ (num >> 1);
@@ -898,7 +857,6 @@ function gray(enc, num) {
 // Greatest common divisor
 /* exported gcd */
 function gcd(a, b) {
-    'use strict';
 
     // Euclidean algorithm - computing the greatest common divisor
 
@@ -913,7 +871,6 @@ function gcd(a, b) {
 // Harshad or Niven series
 /* exported isHarshadOrNiven */
 function isHarshadOrNiven() {
-    'use strict';
 
     // The Harshad/Niven numbers are positive integers
     // that are divisible by the sum of their digits.
@@ -952,7 +909,6 @@ function isHarshadOrNiven() {
 // Hash from two arrays
 /* exported arrToObj */
 function arrToObj(keys, values) {
-    'use strict';
 
     const obj = {};
     const valuesIter = values.values();
@@ -968,7 +924,6 @@ function arrToObj(keys, values) {
 // Hofstadter Q sequence
 /* exported hofstadterQ */
 function hofstadterQ(n) {
-    'use strict';
 
     if (n < 2) {
         return 1;
