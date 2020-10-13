@@ -1,3 +1,5 @@
+'use strict';
+
 /*
  * BASIC ALGORITHM SCRIPTING
  *
@@ -54,8 +56,6 @@
 // Convert Celsius to Fahrenheit
 /* exported convertToF */
 function convertToF(celsius) {
-    'use strict';
-
     return (celsius * 9) / 5 + 32;
 }
 
@@ -63,8 +63,6 @@ function convertToF(celsius) {
 // Reverse a String
 /* exported reverseString */
 function reverseString(str) {
-    'use strict';
-
     return str.split('').reverse().join('');
 }
 
@@ -72,7 +70,6 @@ function reverseString(str) {
 // Factorialize a Number
 /* exported factorialize */
 function factorialize(num) {
-    'use strict';
 
     let result = 1;
 
@@ -87,7 +84,6 @@ function factorialize(num) {
 // Find the Longest Word in a String
 /* exported findLongestWordLength */
 function findLongestWordLength(str) {
-    'use strict';
 
     let longest = 0;
     let word;
@@ -105,7 +101,6 @@ function findLongestWordLength(str) {
 // Return Largest Numbers in Arrays
 /* exported largestOfFour */
 function largestOfFour(arr) {
-    'use strict';
 
     const nums = [];
     let subArray;
@@ -121,9 +116,8 @@ function largestOfFour(arr) {
 // Confirm the Ending
 /* exported confirmEnding */
 function confirmEnding(str, target) {
-    'use strict';
-
     // Same as: return str.endsWith(target);
+    // Same as: return str.slice(str.length - target.length) === target;
     return str.substring(str.length - target.length) === target;
 }
 
@@ -131,12 +125,7 @@ function confirmEnding(str, target) {
 // Repeat a String Repeat a String
 /* exported repeatStringNumTimes */
 function repeatStringNumTimes(str, num) {
-    'use strict';
-
-    if (num < 1 || str === '') {
-        return '';
-    }
-
+    if (num < 1 || str === '') return '';
     // Same as: return str.repeat(num);
     return Array(num).fill(str).join('');
 }
@@ -145,8 +134,6 @@ function repeatStringNumTimes(str, num) {
 // Truncate a String
 /* exported truncateString */
 function truncateString(str, num) {
-    'use strict';
-
     return (str.length > num) ? `${str.slice(0, num)}...` : str;
 }
 
@@ -155,7 +142,6 @@ function truncateString(str, num) {
 /* exported findElement */
 // eslint-disable-next-line consistent-return
 function findElement(arr, func) {
-    'use strict';
 
     let item;
 
@@ -170,15 +156,12 @@ function findElement(arr, func) {
 // Boo who
 /* exported booWho */
 function booWho(bool) {
-    'use strict';
-
     return bool === true || bool === false;
 }
 
 // Title Case a Sentence
 /* exported titleCase */
 function titleCase(str) {
-    'use strict';
 
     const separator = ' ';
     const words = [];
@@ -195,8 +178,6 @@ function titleCase(str) {
 // Slice and Splice
 /* exported frankenSplice */
 function frankenSplice(arr1, arr2, n) {
-    'use strict';
-
     // Do not change the original arrays
     return arr2.slice().splice(n, 0, ...arr1);
 }
@@ -205,8 +186,6 @@ function frankenSplice(arr1, arr2, n) {
 // Falsy Bouncer
 /* exported bouncer */
 function bouncer(arr) {
-    'use strict';
-
     return arr.filter((item) => item);
 }
 
@@ -214,8 +193,6 @@ function bouncer(arr) {
 // Where do I Belong
 /* exported getIndexToIns */
 function getIndexToIns(arr, num) {
-    'use strict';
-
     return arr.reduce((acc, cur) => acc + (num > cur), 0);
 }
 
@@ -223,7 +200,6 @@ function getIndexToIns(arr, num) {
 // Mutations
 /* exported mutation */
 function mutation(arr) {
-    'use strict';
 
     // Check if a set of letters from the string in the second element of the array
     // is a subset of letters from the string in the first element of the array
@@ -246,7 +222,6 @@ function mutation(arr) {
 // Chunky Monkey
 /* exported chunkArrayInGroups */
 function chunkArrayInGroups(arr, size) {
-    'use strict';
 
     // Do not change the original array
     const arrChunks = [];

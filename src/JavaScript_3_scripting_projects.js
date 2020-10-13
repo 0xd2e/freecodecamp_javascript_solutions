@@ -1,3 +1,5 @@
+'use strict';
+
 /*
  * 1. Palindrome Checker
  * https://learn.freecodecamp.org/javascript-algorithms-and-data-structures/javascript-algorithms-and-data-structures-projects/palindrome-checker/
@@ -19,7 +21,6 @@
 // Palindrome Checker
 /* exported palindrome */
 function palindrome(str) {
-    'use strict';
 
     // Return true if the given string is a palindrome, false otherwise.
 
@@ -35,7 +36,6 @@ function palindrome(str) {
 // Roman Numeral Converter
 /* exported convertToRoman */
 function convertToRoman(num) {
-    'use strict';
 
     /*
      * Input:
@@ -99,7 +99,6 @@ function convertToRoman(num) {
 // Caesars Cipher
 /* exported rot13 */
 function rot13(encryptedStr) {
-    'use strict';
 
     /*
      * Input:
@@ -138,7 +137,6 @@ function rot13(encryptedStr) {
 // Telephone Number Validator
 /* exported telephoneCheck */
 function telephoneCheck(str) {
-    'use strict';
 
     // Returns true if a given string is a valid US phone number, false otherwise.
 
@@ -171,7 +169,6 @@ function telephoneCheck(str) {
 
 // Cash Register
 function convertNums(changeCollected, conversionFactor) {
-    'use strict';
 
     // Convert integers in collected change back to floats.
     // Mutate (change values in place) and return a reference to the given array.
@@ -187,7 +184,8 @@ function convertNums(changeCollected, conversionFactor) {
 
 
 function greedyChangeSearch(cid, denominations, cidTotal, changeTotal) {
-    'use strict';
+
+    /* eslint no-labels: ["error", { "allowLoop": true }] */
 
     /*
      * Input:
@@ -284,7 +282,6 @@ function greedyChangeSearch(cid, denominations, cidTotal, changeTotal) {
 
 /* exported checkCashRegister */
 function checkCashRegister(price, cash, cid) {
-    'use strict';
 
     /*
      * Input:
