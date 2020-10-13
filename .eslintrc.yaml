@@ -1,13 +1,16 @@
 ---
-plugins: []
+plugins:
+  - "import"
 extends:
   - "eslint:recommended"
+  - "plugin:import/errors"
+  - "plugin:import/warnings"
   - "airbnb-base"
 env:
-  browser: true
+  browser: false
   node: false
   commonjs: false
-  shared-node-browser: true
+  shared-node-browser: false
   es6: true
   es2017: true
   es2020: true
@@ -39,10 +42,7 @@ rules:
     - "error"
     - 4
     - SwitchCase: 0
-      VariableDeclarator:
-        var: 1
-        let: 1
-        const: 2
+      VariableDeclarator: "first"
   linebreak-style:
     - "error"
     - "unix"
@@ -58,17 +58,23 @@ rules:
       ignoreRegExpLiterals: true
   no-bitwise: "off"
   no-continue: "off"
-  no-labels:
+  no-mixed-operators:
     - "error"
-    - allowLoop: true
-      allowSwitch: false
+    - "groups":
+        - ["%", "**"]
+        - ["%", "*"]
+        - ["%", "+"]
+        - ["%", "-"]
+        - ["%", "/"]
+        - ["&", "|", "<<", ">>", ">>>"]
+        - ["==", "!=", "===", "!=="]
+        - ["&&", "||"]
+      "allowSamePrecedence": false
   no-multiple-empty-lines:
     - "error"
     - max: 2
       maxEOF: 1
-  no-param-reassign:
-    - "off"
-    - props: false
+  no-param-reassign: "off"
   no-plusplus:
     - "off"
     - allowForLoopAfterthoughts: true
@@ -76,11 +82,7 @@ rules:
   no-restricted-syntax:
     - "error"
     - "WithStatement"
-  padded-blocks:
-    - "off"
-    - blocks: "always"
-      classes: "always"
-      switches: "never"
+  padded-blocks: "off"
   prefer-destructuring:
     - "error"
     - VariableDeclarator:
@@ -108,4 +110,4 @@ rules:
     - "always"
   strict:
     - "error"
-    - "safe"
+    - "global"
