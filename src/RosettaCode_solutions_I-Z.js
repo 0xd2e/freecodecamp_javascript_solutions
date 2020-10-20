@@ -39,6 +39,9 @@
  * Linear congruential generator
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/linear-congruential-generator
  *
+ * Long multiplication
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/long-multiplication
+ *
  * Look-and-say sequence
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/look-and-say-sequence
  *
@@ -451,6 +454,13 @@ function linearCongGenerator(r, a, c, m, n) {
     }
 
     return r;
+}
+
+
+// Long multiplication
+/* exported mult */
+function mult(strNum1, strNum2) {
+    return (BigInt(strNum1) * BigInt(strNum2)).toString();
 }
 
 

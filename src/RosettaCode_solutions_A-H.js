@@ -39,6 +39,9 @@
  * Convert seconds to compound duration
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/convert-seconds-to-compound-duration
  *
+ * Cramer's rule
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/cramers-rule
+ *
  * Cumulative standard deviation
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/cumulative-standard-deviation
  *
@@ -60,6 +63,9 @@
  * Entropy
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/entropy/
  *
+ * Euler method
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/euler-method
+ *
  * Evaluate binomial coefficients
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/evaluate-binomial-coefficients/
  *
@@ -74,6 +80,12 @@
  *
  * Gamma function
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/gamma-function
+ *
+ * Generate lower case ASCII alphabet
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/generate-lower-case-ascii-alphabet
+ *
+ * Generator/Exponential
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/generatorexponential
  *
  * Gray code
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/gray-code/
@@ -445,6 +457,136 @@ function convertSeconds(seconds) {
 }
 
 
+// Cramer's rule
+
+// Auxiliary function suitable for map method to make a copy of a nested (2d) array
+const copyRow = (row) => row.slice();
+
+
+function calculateDeterminant(matrix) {
+
+    /*
+     * Input:
+     *
+     * matrix
+     * -- nested (2d) array of numbers
+     * -- each subarray must have the same length as the container array
+     * (number of integers in each subarray must be equal to the number of subarrays in the matrix)
+     * -- must be row major (each subarray represents a row)
+     * ** determinant is not defined for a non-square matrix
+     *
+     *
+     * Return a single number, the determinant of the given matrix.
+     */
+
+    const len = matrix.length;
+
+    if (len === 2) {
+        const [a, b] = matrix[0];
+        const [d, e] = matrix[1];
+        return a * e - b * d;
+    }
+
+    if (len === 3) {
+        const [a, b, c] = matrix[0];
+        const [d, e, f] = matrix[1];
+        const [g, h, i] = matrix[2];
+        return a * e * i + b * f * g + c * d * h - c * e * g - b * d * i - a * f * h;
+    }
+
+    const topRow = matrix[0];
+    matrix = matrix.slice(1);
+
+    let determinant = 0;
+    let col = 0; // column index
+    let submatrix;
+
+    /*
+     * Determinant of a larger matrix (which size is greater than 3) is computed recursively.
+     *
+     * Because the cofactor expansion is evaluated only along the top row and array indexing
+     * is zero-based, the formula for calculating the signature of a cofactor "(-1) ** (row + col)"
+     * can be reduced to "(-1) ** (col + 2)". It will give -1 if the column index is an odd number.
+     */
+
+    for (col; col < len; ++col) {
+        submatrix = matrix.map(copyRow);
+        for (const row of submatrix) row.splice(col, 1); // delete column
+        determinant += (col & 1 ? -1 : 1) * topRow[col] * calculateDeterminant(submatrix);
+    }
+
+    return determinant;
+}
+
+
+function replaceColumn(matrix, index, substitutes) {
+
+    /*
+     * Inputs:
+     *
+     * matrix
+     * -- nested (2d) array of numbers
+     * -- must be row major (each subarray represents a row)
+     *
+     * index
+     * -- nonnegative integer number
+     * -- index of a column in matrix
+     *
+     * substitutes
+     * -- array of numbers
+     * -- must have the same length as matrix
+     *
+     *
+     * Alter a column in place in the matrix.
+     */
+
+    const columnIndex = index;
+
+    for (index = 0; index < substitutes.length; ++index) {
+        matrix[index][columnIndex] = substitutes[index];
+    }
+}
+
+
+/* exported cramersRule */
+function cramersRule(coefficientMatrix, freeTerms) {
+
+    /*
+     * Inputs:
+     *
+     * coefficientMatrix
+     * -- nested (2d) array of numbers
+     * -- each subarray must have the same length as the container array
+     * (number of integers in each subarray must be equal to the number of subarrays in the matrix)
+     * -- must be row major (each subarray represents a row)
+     * -- coefficients of the system of linear equations
+     * ** the number of unknowns and the number of equations are equal
+     * for a square coefficient matrix
+     *
+     * freeTerms
+     * -- array of numbers
+     * -- must have the same length as coefficientMatrix
+     * -- constant terms of the system of linear equations
+     *
+     *
+     * Return an array of numbers, a solution to the simultaneous linear equations.
+     */
+
+    const denominatorDeterminant = calculateDeterminant(coefficientMatrix);
+    const solution = [];
+
+    let numerator;
+
+    for (let col = 0; col < coefficientMatrix.length; ++col) {
+        numerator = coefficientMatrix.map(copyRow);
+        replaceColumn(numerator, col, freeTerms);
+        solution.push(calculateDeterminant(numerator) / denominatorDeterminant);
+    }
+
+    return solution;
+}
+
+
 // Cumulative standard deviation
 /* exported standardDeviation */
 function standardDeviation(arr) {
@@ -657,6 +799,34 @@ function entropy(str) {
 }
 
 
+// Euler method
+/* exported eulersMethod */
+function eulersMethod(t0, temp, t, h) {
+
+    /*
+     * Inputs:
+     * t0 -- number, initial time in seconds
+     * temp -- number, (initial) temperature at t0 in centigrades
+     * t -- number, elapsed time (span) in seconds
+     * h -- number, (constant) step size in seconds
+     *
+     * Use Euler's method to approximate temperature of a cooling object
+     * according to Newton's law of cooling.
+     *
+     * Return a number, temperature in centigrades after the given time.
+     */
+
+    const roomTemp = 20; // environmental (room) temperature in centigrades
+    const k = 0.07; // cooling constant (inverse of the time constant of the system)
+
+    for (t; t > t0; t -= h) {
+        temp -= h * k * (temp - roomTemp);
+    }
+
+    return temp;
+}
+
+
 // Evaluate binomial coefficients
 function factorial(num, out) {
 
@@ -829,6 +999,53 @@ function gamma(x) {
     const t = x + coefficients.length - 0.5;
 
     return Math.sqrt(2 * Math.PI) * t ** (x + 0.5) * Math.exp(-t) * n;
+}
+
+
+// Generate lower case ASCII alphabet
+/* exported lascii */
+function lascii(charFrom, charTo) {
+    const lowercaseAlphabet = 'abcdefghijklmnopqrstuvwxyz';
+    const start = lowercaseAlphabet.indexOf(charFrom);
+    const end = lowercaseAlphabet.indexOf(charTo, start);
+    if (start === -1 || end === -1) return '';
+    return lowercaseAlphabet.slice(start, end + 1).split('');
+}
+
+
+// Generator/Exponential
+function* powerSequenceGenerator(num) {
+    // Although the loop is infinite, in practice the sequence is limited
+    // by the largest safe integer number (Number.MAX_SAFE_INTEGER).
+    const power = num;
+    for (num = 2; ;) yield num++ ** power;
+}
+
+
+function* sequenceFilteringGenerator() {
+    const cubeGen = powerSequenceGenerator(3);
+    const squareGen = powerSequenceGenerator(2);
+    let squareNum = squareGen.next().value;
+    for (const cubeNum of cubeGen) {
+        while (squareNum < cubeNum) {
+            yield squareNum;
+            squareNum = squareGen.next().value;
+        }
+        if (squareNum === cubeNum) {
+            // Discard a number that belongs to both sequences
+            squareNum = squareGen.next().value;
+        }
+    }
+}
+
+
+/* exported exponentialGenerator */
+function exponentialGenerator(nthValue) {
+    let squaredNum;
+    for (squaredNum of sequenceFilteringGenerator()) {
+        if (--nthValue === 0) break;
+    }
+    return squaredNum;
 }
 
 
