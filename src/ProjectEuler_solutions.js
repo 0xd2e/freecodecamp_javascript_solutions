@@ -35,6 +35,15 @@
  *
  * Problem 40: Champernowne's constant
  * https://learn.freecodecamp.org/coding-interview-prep/project-euler/problem-40-champernownes-constant/
+ *
+ * Problem 81: Path sum: two ways
+ * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-81-path-sum-two-ways
+ *
+ * Problem 83: Path sum: four ways
+ * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-83-path-sum-four-ways
+ *
+ * Problem 144: Investigating multiple reflections of a laser beam
+ * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-144-investigating-multiple-reflections-of-a-laser-beam
  */
 
 
@@ -431,4 +440,300 @@ function champernownesConstant(n) {
     }
 
     return answer;
+}
+
+
+// Problem 81: Path sum: two ways
+function enqueue(minPriorityQueue, newItem) {
+
+    /*
+     * Inputs:
+     *
+     * minPriorityQueue
+     * -- nested array of integer numbers
+     * -- must be sorted in ascending order according to the first element in subarray
+     * -- subarrays cannot be empty
+     *
+     * newItem -- nonempty array of intiger numbers
+     *
+     *
+     * Add new subarray to the nested array at the position that will preserve sorting order.
+     *
+     *
+     * Used in Project Euler - Problems 81 and 83
+     *
+     * Based on:
+     * https://en.wikipedia.org/wiki/Binary_search_algorithm#Procedure_for_finding_the_leftmost_element
+     */
+
+    const newItemComparisonKey = newItem[0];
+    let left = 0;
+    let right = minPriorityQueue.length - 1;
+
+    if (right < 0 || minPriorityQueue[right][0] < newItemComparisonKey) {
+        minPriorityQueue.push(newItem);
+        return;
+    }
+
+    if (minPriorityQueue[left][0] >= newItemComparisonKey) {
+        minPriorityQueue.unshift(newItem);
+        return;
+    }
+
+    let middle;
+
+    while (left < right) {
+        middle = (left + right) >>> 1;
+        if (minPriorityQueue[middle][0] < newItemComparisonKey) {
+            left = middle + 1;
+        } else {
+            right = middle;
+        }
+    }
+
+    minPriorityQueue.splice(left, 0, newItem);
+}
+
+
+/* exported pathSumTwoWays */
+function pathSumTwoWays(squareMatrix) {
+
+    /*
+     * Inputs:
+     *
+     * squareMatrix
+     * -- nested (2d) array of integer numbers
+     * -- each subarray must have the same length as the container array
+     * (number of integers in each subarray must be equal to the number of subarrays in the matrix)
+     *
+     *
+     * Return an integer number, the lowest sum of all numbers along a path
+     * from the top left corner to the bottom right corner on a square grid.
+     * Both start (source) and end (destination) cells count to the total cost.
+     *
+     *
+     * Notes:
+     *
+     * -- Right and down steps are allowed. Therefore only moving forward
+     * (toward the target cell) is possible and length of each feasible
+     * path is constant (all routes have the same number of steps).
+     *
+     * -- Each cell of the grid represents the cost of traversing through that cell.
+     *
+     * -- There is no need to backtrack the path (reconstruct the steps),
+     * because only the total cost of the path is required.
+     *
+     * -- This solution is based on Dijkstra’s shortest path algorithm.
+     */
+
+    const len = squareMatrix.length;
+    const end = len - 1;
+
+    // Auxiliary variables for value and position of a cell
+    // eslint-disable-next-line one-var, one-var-declaration-per-line
+    let cost, row, col;
+
+    /*
+     * Minimum priority queue:
+     * -- holds accumulated cost and position of cells that are not yet evaluated
+     * -- is an array of arrays of integers sorted in ascending order by the accumulated cost
+     * -- guarantees that the first time a cell is visited (dequeued) it is the end point
+     * of a path with the lowest cost to get to that cell
+     *
+     * Structure of subarrays:
+     * 0. sum of all values from cells on the path
+     * 1. row index of the end point
+     * 2. column index of the end point
+     */
+    const minPriorityQueue = [
+        [squareMatrix[0][0], 0, 0]
+    ];
+
+    const visited = [];
+    for (row = 0; row < len; ++row) {
+        visited.push(new Int8Array(len));
+        visited[row].fill(0);
+    }
+
+    while (minPriorityQueue.length) {
+        [cost, row, col] = minPriorityQueue.shift(); // dequeue
+        if (visited[row][col]) continue;
+        if (row === end && col === end) break;
+        if (row < end) {
+            enqueue(minPriorityQueue, [cost + squareMatrix[row + 1][col], row + 1, col]);
+        }
+        if (col < end) {
+            enqueue(minPriorityQueue, [cost + squareMatrix[row][col + 1], row, col + 1]);
+        }
+        visited[row][col] = 1;
+    }
+
+    return cost;
+}
+
+
+// Problem 83: Path sum: four ways
+/* exported pathSumFourWays */
+function pathSumFourWays(squareMatrix) {
+
+    /*
+     * Inputs:
+     *
+     * squareMatrix
+     * -- nested (2d) array of integer numbers
+     * -- each subarray must have the same length as the container array
+     * (number of integers in each subarray must be equal to the number of subarrays in the matrix)
+     *
+     *
+     * Return an integer number, the lowest sum of all numbers along a path
+     * from the top left corner to the bottom right corner on a square grid.
+     * Both start (source) and end (destination) cells count to the total cost.
+     *
+     *
+     * Notes:
+     *
+     * -- Allowed steps: left, up, right, and down.
+     *
+     * -- Each cell of the grid represents the cost of traversing through that cell.
+     *
+     * -- There is no need to backtrack the path (reconstruct the steps),
+     * because only the total cost of the path is required.
+     *
+     * -- This solution is based on Dijkstra’s shortest path algorithm.
+     */
+
+    const len = squareMatrix.length;
+    const end = len - 1;
+
+    // Auxiliary variable for position of neighbors of the current cell
+    const neighbors = [];
+
+    // Auxiliary variables for value and position of a cell
+    // eslint-disable-next-line one-var, one-var-declaration-per-line
+    let cost, row, col;
+
+    /*
+     * Minimum priority queue:
+     * -- holds accumulated cost and position of cells that are not yet evaluated
+     * -- is an array of arrays of integers sorted in ascending order by the accumulated cost
+     * -- ensures that each discovered (dequeued) cell is the end point
+     * of a path with the lowest cost to get to that cell
+     *
+     * Structure of subarrays:
+     * 0. sum of all values from cells on the path
+     * 1. row index of the end point
+     * 2. column index of the end point
+     */
+    const minPriorityQueue = [
+        [squareMatrix[0][0], 0, 0]
+    ];
+
+    const discovered = [];
+    for (row = 0; row < len; ++row) {
+        discovered.push(new Int8Array(len));
+        discovered[row].fill(0);
+    }
+
+    discovered[0][0] = 1;
+
+    while (minPriorityQueue.length) {
+        [cost, row, col] = minPriorityQueue.shift(); // dequeue
+        if (row === end && col === end) break;
+        // Neighbors inside the grid (possible next steps)
+        if (row > 0) neighbors.push([row - 1, col]);
+        if (col > 0) neighbors.push([row, col - 1]);
+        if (row < end) neighbors.push([row + 1, col]);
+        if (col < end) neighbors.push([row, col + 1]);
+        while (neighbors.length) {
+            [row, col] = neighbors.pop();
+            if (discovered[row][col]) continue;
+            enqueue(minPriorityQueue, [cost + squareMatrix[row][col], row, col]);
+            discovered[row][col] = 1;
+        }
+    }
+
+    return cost;
+}
+
+
+// Problem 144: Investigating multiple reflections of a laser beam
+/* exported euler144 */
+function euler144() {
+
+    /*
+     * Notes:
+     *
+     * In this particular case (for the ellipse and initial conditions)
+     * none of incidence points have either of their coordinates equal to zero.
+     * Consequently all axes of symmetry are neither vertical nor horizontal.
+     *
+     * A laser beam can enter and exit the white cell through a single hole at the top.
+     *
+     * The point of incidence is common for the ellipse, incident line,
+     * reflected line, and axis of symmetry.
+     *
+     * All points of incidence lie on the ellipse. Furthermore, two
+     * consecutive points of incidence lie on the same line.
+     *
+     * Coordinates of a point of incidence are calculated using:
+     * -- equation of the ellipse for two consecutive points of incidence
+     *    4 * x ^ 2 + y ^ 2 = 4 * x0 ^ 2 + y0 ^ 2 = 100
+     * -- slope of a non-vertical incident line
+     *    m1 = (y - y0) / (x - x0)
+     * -- equation of the incident line
+     *    y = m1 * x + c1
+     *
+     * Another possible approach to find a point of incidence
+     * is to calculate intersection of a line and ellipse
+     * -- equation of the ellipse
+     *    4 * x ^ 2 + y ^ 2 = 100
+     * -- equation of a non-vertical incident line
+     *    y = m1 * x + c1
+     */
+
+    // Coordinates of a point on the (initial) incident line
+    let x1 = 0.0;
+    let y1 = 10.1;
+
+    // Coordinates of the point of incidence
+    let x0 = 1.4;
+    let y0 = -9.6;
+
+    let internalReflectionCounter = 0;
+
+    // eslint-disable-next-line one-var, one-var-declaration-per-line
+    let m, ms, cs, x, m1, c1;
+
+    while (x0 < -0.01 || x0 > 0.01 || y0 < 0) {
+
+        // Slope of the line tangent to the ellipse at the point of incidence
+        m = -4 * x0 / y0;
+
+        // Coefficients of the axis of symmetry
+        ms = -1 / m; // it is normal (perpendicular) to the tangent line
+        cs = y0 - ms * x0; // it passes through the point of incidence
+
+        // Coordinate of the midpoint - the point of intersection of the axis of symmetry
+        // and a normal (perpendicular) line that passes through [x1, y1] point
+        x = (y1 - m * x1 - cs) / (ms - m);
+        // Secont coordinate: y = ms * x + cs = m * x + (y1 - m * x1)
+
+        // Now consider the reflected laser beam as the new incident beam
+
+        // Coordinates of a point on the new incident line which is a reflection over the axis of symmetry
+        x1 = 2 * x - x1;
+        y1 = 2 * (ms * x + cs) - y1;
+
+        // Coefficients of the new incident line
+        m1 = (y1 - y0) / (x1 - x0);
+        c1 = y1 - m1 * x1;
+
+        // Coordinates of the new point of incidence
+        x0 = ((m1 * m1 - 4) * x0 - 2 * m1 * y0) / (4 + m1 * m1);
+        y0 = m1 * x0 + c1;
+
+        ++internalReflectionCounter;
+    }
+
+    return internalReflectionCounter;
 }
