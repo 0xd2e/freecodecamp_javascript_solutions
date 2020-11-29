@@ -6,6 +6,12 @@
  * Problem 1: Multiples of 3 and 5
  * https://learn.freecodecamp.org/coding-interview-prep/project-euler/problem-1-multiples-of-3-and-5/
  *
+ * Problem 2: Even Fibonacci Numbers
+ * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-2-even-fibonacci-numbers
+ *
+ * Problem 5: Smallest multiple
+ * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-5-smallest-multiple
+ *
  * Problem 6: Sum square difference
  * https://learn.freecodecamp.org/coding-interview-prep/project-euler/problem-6-sum-square-difference/
  *
@@ -14,6 +20,9 @@
  *
  * Problem 9: Special Pythagorean triplet
  * https://learn.freecodecamp.org/coding-interview-prep/project-euler/problem-9-special-pythagorean-triplet
+ *
+ * Problem 11: Largest product in a grid
+ * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-11-largest-product-in-a-grid
  *
  * Problem 13: Large sum
  * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-13-large-sum
@@ -66,6 +75,59 @@ function multiplesOf3and5(num) {
     const multi15sum = Math.floor(((2 * 15 + (multi15 - 1) * 15) * multi15) / 2);
 
     return multi3sum + multi5sum - multi15sum;
+}
+
+
+// Problem 2: Even Fibonacci Numbers
+/* exported fiboEvenSum */
+function fiboEvenSum(n) {
+
+    /*
+     * Every third number in The Fibonacci Sequence is even:
+     * 1, 1, (2), 3, 5, (8), 13, 21, (34), 55, 89, (144), 233, 377, (610), ...
+     *
+     * Reminder - sum of two numbers is even when: both numbers are odd or both numbers are even.
+     *
+     * Subsequence with only even numbers:
+     * Sub[1] = Fib[ 3] =   2
+     * Sub[2] = Fib[ 6] =   8
+     * Sub[3] = Fib[ 9] =  34 = 4 * Fib[ 6] + Fib[ 3]
+     * Sub[4] = Fib[12] = 144 = 4 * Fib[ 9] + Fib[ 6]
+     * Sub[5] = Fib[15] = 610 = 4 * Fib[12] + Fib[ 9]
+     *
+     * Recursive formula for even Fibonacci Numbers:
+     * Sub[i] = 4 * Sub[i - 1] + Sub[i - 2], for i = 3, 4, 5, ...
+     */
+
+    const limit = n;
+    let sum = 0;
+    let m = 2;
+    n = 8;
+
+    while (n <= limit) {
+        sum += m;
+        [n, m] = [4 * n + m, n];
+    }
+
+    return sum + m;
+}
+
+
+// Problem 5: Smallest multiple
+/* exported smallestMult */
+function smallestMult(n) {
+
+    let leastCommonMultiple = n;
+    let factor = n - 1;
+
+    for (factor; factor > 1; --factor) {
+        n = leastCommonMultiple;
+        while (leastCommonMultiple % factor) {
+            leastCommonMultiple += n;
+        }
+    }
+
+    return leastCommonMultiple;
 }
 
 
@@ -147,6 +209,39 @@ function specialPythagoreanTriplet(num) {
     }
 
     return answer ? a * b * c : 0;
+}
+
+
+// Problem 11: Largest product in a grid
+/* exported largestGridProduct */
+function largestGridProduct(arr) {
+
+    let greatest = 0;
+    let row = 0;
+    let col;
+
+    const windowSize = 4;
+    const maxIndexOffset = windowSize - 1;
+    const end = arr.length - windowSize;
+    const offsets = new Int8Array(windowSize).fill().map((_, i) => i);
+    const multiplyVertically = (prod, n) => prod * n;
+    const multiplyHorizontally = (prod, i) => prod * arr[row][col + i];
+    const multiplyDiagonally = (prod, i) => prod * arr[row + i][col + i];
+    const multiplyAntidiagonally = (prod, i) => prod * arr[row + maxIndexOffset - i][col + i];
+
+    for (row; row <= end; ++row) {
+        for (col = 0; col <= end; ++col) {
+            greatest = Math.max(
+                arr[row].slice(col, col + windowSize).reduce(multiplyVertically, 1),
+                offsets.reduce(multiplyHorizontally, 1),
+                offsets.reduce(multiplyDiagonally, 1),
+                offsets.reduce(multiplyAntidiagonally, 1),
+                greatest
+            );
+        }
+    }
+
+    return greatest;
 }
 
 
