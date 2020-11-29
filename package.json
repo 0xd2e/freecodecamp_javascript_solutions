@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Solutions to freecodecamp.org JavaScript challenges and projects.",
     "scripts": {
-        "lint": "eslint ./src/**/*.js"
+        "lint": "eslint --report-unused-disable-directives ./src/**/*.js"
     },
     "repository": {
         "type": "git",
