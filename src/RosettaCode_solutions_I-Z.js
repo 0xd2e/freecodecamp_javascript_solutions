@@ -36,6 +36,9 @@
  * Letter frequency
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/letter-frequency
  *
+ * Levenshtein distance
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/levenshtein-distance
+ *
  * Linear congruential generator
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/linear-congruential-generator
  *
@@ -74,6 +77,9 @@
  *
  * Sort using a custom comparator
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/sort-using-a-custom-comparator
+ *
+ * Soundex
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/soundex
  *
  * Spiral matrix
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/spiral-matrix
@@ -445,6 +451,58 @@ function letterFrequency(txt) {
 }
 
 
+// Levenshtein distance
+/* exported levenshtein */
+function levenshtein(xWord, yWord) {
+
+    // Based on:
+    // https://www.baeldung.com/cs/levenshtein-distance-computation#4-iterative-with-one-row
+    // https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows
+
+    xWord = xWord.toLowerCase();
+    yWord = yWord.toLowerCase();
+
+    if (xWord === yWord) return 0;
+
+    const deletionCost = 1; // cost of deleting one char from xWord
+    const insertionCost = 1; // cost of inserting one char into xWord
+    const substitutionCost = 1; // cost of replacing one char in xWord with one char from yWord
+    const n = xWord.length; // number of columns
+    const m = yWord.length; // number of rows
+
+    if (!n) return m * insertionCost;
+    if (!m) return n * deletionCost;
+
+    // Auxiliary vector with (partial) edit distances, initialized with costs of deleting
+    // characters from substrings of xWord with length i to get empty string
+    const row = new Uint8Array(n + 1).map((_, i) => i * deletionCost);
+
+    let i = 0; // position of a char in xWord (column index)
+    let j; // position of a char in yWord (row index)
+    let above;
+    let diagonal;
+
+    for (j = 0; j < m; ++j) {
+
+        // Add character(s) to empty string to get substring of length j
+        row[0] = j * insertionCost;
+
+        above = row[0];
+        for (i = 0; i < n; ++i) {
+            diagonal = above;
+            above = row[i + 1];
+            row[i + 1] = Math.min(
+                above + deletionCost,
+                row[i] + insertionCost,
+                diagonal + (xWord[i] === yWord[j] ? 0 : substitutionCost)
+            );
+        }
+    }
+
+    return row[n];
+}
+
+
 // Linear congruential generator
 /* exported linearCongGenerator */
 function linearCongGenerator(r, a, c, m, n) {
@@ -761,6 +819,55 @@ function lengthSorter(arr) {
         if (a > b) return 1;
         return 0;
     });
+}
+
+
+// Soundex
+/* exported soundex */
+function soundex(word) {
+
+    const firstLetter = word[0].toUpperCase();
+    const specialConsonantsGroupId = 0;
+    const charsToDiscardGroupId = -1;
+
+    const groupsTable = {
+        h: specialConsonantsGroupId,
+        w: specialConsonantsGroupId,
+        a: charsToDiscardGroupId,
+        e: charsToDiscardGroupId,
+        i: charsToDiscardGroupId,
+        o: charsToDiscardGroupId,
+        u: charsToDiscardGroupId,
+        y: charsToDiscardGroupId,
+        b: 1,
+        f: 1,
+        p: 1,
+        v: 1,
+        c: 2,
+        g: 2,
+        j: 2,
+        k: 2,
+        q: 2,
+        s: 2,
+        x: 2,
+        z: 2,
+        d: 3,
+        t: 3,
+        l: 4,
+        m: 5,
+        n: 5,
+        r: 6,
+    };
+
+    const threeDigits = Int8Array.from(word.toLowerCase(), (char) => groupsTable[char])
+        .filter((num) => num !== specialConsonantsGroupId)
+        .map((num, i, arr) => arr[i > 0 ? i - 1 : 0] === num ? charsToDiscardGroupId : num) // eslint-disable-line no-confusing-arrow
+        .filter((num) => num !== charsToDiscardGroupId)
+        .slice(0, 3)
+        .join('')
+        .padEnd(3, '0');
+
+    return `${firstLetter}${threeDigits}`;
 }
 
 
