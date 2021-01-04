@@ -45,6 +45,9 @@
  * Long multiplication
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/long-multiplication
  *
+ * Longest string challenge
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/longest-string-challenge
+ *
  * Look-and-say sequence
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/look-and-say-sequence
  *
@@ -62,6 +65,9 @@
  *
  * Sailors, coconuts and a monkey problem
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/sailors-coconuts-and-a-monkey-problem/
+ *
+ * Search a list of records
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/search-a-list-of-records
  *
  * SEDOLs
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/sedols
@@ -515,6 +521,14 @@ function linearCongGenerator(r, a, c, m, n) {
 }
 
 
+// Longest string challenge
+/* exported longestString */
+function longestString(strings) {
+    const longestStringLength = Math.max(...strings.map((str) => str.length));
+    return strings.filter((str) => str.length === longestStringLength);
+}
+
+
 // Long multiplication
 /* exported mult */
 function mult(strNum1, strNum2) {
@@ -699,6 +713,14 @@ function isLychrel(n) {
 function splitCoconuts(n) {
     // This equations are from: http://oeis.org/A002021
     return n & 1 ? (n ** n) - n + 1 : (n - 1) * ((n ** n) - 1);
+}
+
+
+// Search a list of records
+/* exported searchCity */
+function searchCity(name) {
+    /* global list */
+    return list.findIndex((entity) => entity.name === name);
 }
 
 
