@@ -36,6 +36,12 @@
  * Problem 20: Factorial digit sum
  * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-20-factorial-digit-sum
  *
+ * Problem 22: Names scores
+ * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-22-names-scores
+ *
+ * Problem 28: Number spiral diagonals
+ * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-28-number-spiral-diagonals
+ *
  * Problem 34: Digit factorials
  * https://www.freecodecamp.org/learn/coding-interview-prep/project-euler/problem-34-digit-factorials
  *
@@ -347,6 +353,69 @@ function sumFactorialDigits(n) {
 
     return Uint8Array.from(factorial.toString())
         .reduce((sum, dig) => sum + dig, 0);
+}
+
+
+// Problem 22: Names scores
+/* exported namesScores */
+function namesScores(uppercaseWordList) {
+
+    uppercaseWordList.sort();
+
+    const englishLetters = {
+        A: 1,
+        B: 2,
+        C: 3,
+        D: 4,
+        E: 5,
+        F: 6,
+        G: 7,
+        H: 8,
+        I: 9,
+        J: 10,
+        K: 11,
+        L: 12,
+        M: 13,
+        N: 14,
+        O: 15,
+        P: 16,
+        Q: 17,
+        R: 18,
+        S: 19,
+        T: 20,
+        U: 21,
+        V: 22,
+        W: 23,
+        X: 24,
+        Y: 25,
+        Z: 26
+    };
+
+    let wordPosition = 1;
+    let totalScore = 0;
+    let wordScore;
+    let letter;
+
+    for (const word of uppercaseWordList) {
+        wordScore = 0;
+        for (letter of word) {
+            wordScore += englishLetters[letter];
+        }
+        totalScore += wordScore * wordPosition++;
+    }
+
+    return totalScore;
+}
+
+
+// Problem 28: Number spiral diagonals
+/* exported spiralDiagonals */
+function spiralDiagonals(n) {
+    let total = 1;
+    for (n; n > 1; n -= 2) {
+        total += n * (4 * n - 6) + 6; // same as: 4 * n * n - 6 * (n - 1)
+    }
+    return total;
 }
 
 
