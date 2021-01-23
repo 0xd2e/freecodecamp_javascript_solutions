@@ -521,18 +521,18 @@ function linearCongGenerator(r, a, c, m, n) {
 }
 
 
+// Long multiplication
+/* exported mult */
+function mult(strNum1, strNum2) {
+    return (BigInt(strNum1) * BigInt(strNum2)).toString();
+}
+
+
 // Longest string challenge
 /* exported longestString */
 function longestString(strings) {
     const longestStringLength = Math.max(...strings.map((str) => str.length));
     return strings.filter((str) => str.length === longestStringLength);
-}
-
-
-// Long multiplication
-/* exported mult */
-function mult(strNum1, strNum2) {
-    return (BigInt(strNum1) * BigInt(strNum2)).toString();
 }
 
 
