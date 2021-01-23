@@ -45,6 +45,9 @@
  * Long multiplication
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/long-multiplication
  *
+ * Longest common subsequence
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/longest-common-subsequence
+ *
  * Longest string challenge
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/longest-string-challenge
  *
@@ -93,6 +96,15 @@
  * Split a character string based on change of character
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/split-a-character-string-based-on-change-of-character
  *
+ * Stream Merge
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/stream-merge
+ *
+ * Strip control codes and extended characters from a string
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/strip-control-codes-and-extended-characters-from-a-string
+ *
+ * Subleq
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/subleq
+ *
  * Sum of squares
  * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/sum-of-squares
  *
@@ -110,6 +122,9 @@
  *
  * Vector dot product
  * https://learn.freecodecamp.org/coding-interview-prep/rosetta-code/vector-dot-product/
+ *
+ * Word frequency
+ * https://www.freecodecamp.org/learn/coding-interview-prep/rosetta-code/word-frequency
  */
 
 
@@ -525,6 +540,90 @@ function linearCongGenerator(r, a, c, m, n) {
 /* exported mult */
 function mult(strNum1, strNum2) {
     return (BigInt(strNum1) * BigInt(strNum2)).toString();
+}
+
+
+// Longest common subsequence
+function lcsBuildTable(a, b) {
+
+    // Based on:
+    // -- https://en.wikipedia.org/wiki/Longest_common_subsequence_problem#Code_for_the_dynamic_programming_solution
+    // -- https://dyclassroom.com/dynamic-programming/longest-common-subsequence
+    // Main difference is the lack of first row and first column with only 0 values.
+
+    const aLen = a.length; // number of rows
+    const bLen = b.length; // number of columns
+    const table = [];
+    let i; // row index and/or character position in a
+    let j; // column index and/or character position in b
+
+    for (i = aLen; i > 0; --i) {
+        table.push(new Uint8Array(bLen)); // content of typed array is initialized to 0
+    }
+
+    // Populate the first row
+    if (a[0] === b[0]) {
+        table[0].fill(1);
+    } else {
+        for (j = 1; j < bLen; ++j) {
+            table[0][j] = a[0] === b[j] ? 1 : table[0][j - 1];
+        }
+    }
+
+    for (i = 1; i < aLen; ++i) {
+        table[i][0] = a[i] === b[0] ? 1 : table[i - 1][0]; // populate first column in current row
+        for (j = 1; j < bLen; ++j) {
+            // eslint-disable-next-line max-len
+            table[i][j] = a[i] === b[j] ? table[i - 1][j - 1] + 1 : Math.max(table[i][j - 1], table[i - 1][j]);
+        }
+    }
+
+    return table;
+}
+
+
+function lcsBacktrackTable(table, a, b) {
+
+    // Based on: https://dyclassroom.com/dynamic-programming/longest-common-subsequence
+    // Main difference is the lack of first row and first column with only 0 values.
+
+    let i = a.length - 1; // position of character in a (row index)
+    let j = b.length - 1; // position of character in b (column index)
+    const lcsCharList = Array(table[i][j]);
+    let lcsPosition = lcsCharList.length - 1;
+
+    while (i > 0 && j > 0 && lcsPosition >= 0) {
+        if (a[i] === b[j]) {
+            lcsCharList[lcsPosition] = a[i];
+            --lcsPosition;
+            --i;
+            --j;
+        } else if (table[i - 1][j] > table[i][j - 1]) {
+            --i;
+        } else {
+            --j;
+        }
+    }
+
+    // One character can still be missing in the longest common subsequence character list:
+    // -- the first character from string a if the loop stops at the first row (index i is 0)
+    // -- the first character from string b if the loop stops at the first column (index j is 0)
+    if (lcsPosition === 0) {
+        lcsCharList[0] = i === 0 ? a[0] : b[0];
+    }
+
+    return lcsCharList.join('');
+}
+
+
+/* exported lcs */
+function lcs(a, b) {
+    if (a.length > b.length) {
+        [a, b] = [b, a];
+    }
+    // String comparison is case sensitive
+    const table = lcsBuildTable(a, b);
+    return lcsBacktrackTable(table, a, b);
 }
 
 
@@ -994,6 +1093,147 @@ function split(str) {
 }
 
 
+// Stream Merge
+function insert(sortedNestedArray, newItem) {
+
+    /*
+     * Inputs:
+     *
+     * sortedNestedArray
+     * -- nested array of numbers
+     * -- must be sorted in ascending order according to the first element in subarray
+     * -- subarrays cannot be empty
+     *
+     * newItem -- nonempty array of numbers
+     *
+     *
+     * Add new subarray to the nested array at the position that will preserve sorting order.
+     *
+     *
+     * Based on:
+     * https://en.wikipedia.org/wiki/Binary_search_algorithm#Procedure_for_finding_the_leftmost_element
+     */
+
+    const newItemComparisonKey = newItem[0];
+    let left = 0;
+    let right = sortedNestedArray.length - 1;
+
+    if (right < 0 || sortedNestedArray[right][0] < newItemComparisonKey) {
+        sortedNestedArray.push(newItem);
+        return;
+    }
+
+    if (sortedNestedArray[left][0] >= newItemComparisonKey) {
+        sortedNestedArray.unshift(newItem);
+        return;
+    }
+
+    let middle;
+
+    while (left < right) {
+        middle = (left + right) >>> 1;
+        if (sortedNestedArray[middle][0] < newItemComparisonKey) {
+            left = middle + 1;
+        } else {
+            right = middle;
+        }
+    }
+
+    sortedNestedArray.splice(left, 0, newItem);
+}
+
+
+/* exported mergeLists */
+function mergeLists(sortedArrays) {
+
+    // Filter out empty array(s)
+    sortedArrays = sortedArrays.filter((arr) => arr.length);
+
+    // Populate merged array from highest to lowest values (from right to left)
+    // without changing original subarrays.
+
+    // Array of arrays of integers that holds (at most) one value-origin pair from each
+    // input subarray sorted in ascending order by values. Along with insert function,
+    // this provides functionality similar to maximum priority queue.
+    const maxPriorityArray = sortedArrays
+        .map((arr, id) => [arr[arr.length - 1], id])
+        .sort((a, b) => a[0] - b[0]);
+
+    // Keep track of index of value from each subarray that is stored in maxPriorityArray
+    const indexes = new Int16Array(sortedArrays.map((arr) => arr.length - 1));
+
+    const merged = new Array(sortedArrays.reduce((total, arr) => total + arr.length, 0));
+
+    let i = merged.length - 1; // index at which new value is inserted to the merged array
+    let value;
+    let origin; // index of a subarray that contributes the value
+    let anotherValueIndex;
+
+    for (i; i >= 0; --i) {
+        [value, origin] = maxPriorityArray.pop();
+        merged[i] = value;
+        anotherValueIndex = --indexes[origin];
+        if (anotherValueIndex >= 0) {
+            insert(maxPriorityArray, [sortedArrays[origin][anotherValueIndex], origin]);
+        }
+    }
+
+    return merged;
+}
+
+
+// Strip control codes and extended characters from a string
+/* exported strip */
+function strip(str) {
+    return str.split('')
+        .filter((char) => {
+            const num = char.charCodeAt(0);
+            return num > 31 && num < 127;
+        })
+        .join('');
+}
+
+
+// Subleq
+/* exported Subleq */
+function Subleq(init) {
+
+    const input = 'Hello, world!\n\0'.split('').reverse(); // mock standard input (stdin)
+    const output = [];
+    const mem = new Map();
+
+    init.forEach((val, addr) => {
+        mem.set(addr, val);
+    });
+
+    let pos = 0; // instruction pointer
+    let a;
+    let b;
+
+    while (pos >= 0) {
+
+        a = mem.get(pos);
+        b = mem.get(pos + 1);
+
+        if (a < 0) {
+            mem.set(b, input.pop().charCodeAt(0));
+        } else if (b < 0) {
+            output.push(mem.get(a));
+        } else {
+            mem.set(b, mem.get(b) - mem.get(a));
+            if (mem.get(b) <= 0) {
+                pos = mem.get(pos + 2);
+                continue;
+            }
+        }
+
+        pos += 3;
+    }
+
+    return String.fromCharCode(...output);
+}
+
+
 // Sum of squares
 /* exported sumsq */
 function sumsq(arr) {
@@ -1136,4 +1376,19 @@ function dotProduct() {
     }
 
     return dot;
+}
+
+
+// Word frequency
+/* exported wordFrequency */
+function wordFrequency(txt, n) {
+    txt = txt.trim().toLowerCase();
+    if (!txt.length) return [];
+    const frequencyTable = {};
+    for (const word of txt.split(' ')) {
+        frequencyTable[word] = (frequencyTable[word] || 0) + 1;
+    }
+    return Object.entries(frequencyTable)
+        .sort(([, a], [, b]) => b - a) // sort in descending order by the number of occurrences
+        .slice(0, n);
 }
