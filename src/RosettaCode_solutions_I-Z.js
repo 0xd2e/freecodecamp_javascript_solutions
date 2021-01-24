@@ -716,9 +716,11 @@ function lucasLehmer(p) {
     if (p === 2) return true;
     if (!isPrime(p)) return false;
 
+    const one = BigInt(1);
+    const two = BigInt(2);
     const q = BigInt(p);
-    const m = (1n << q) - 1n; // (2 ** p - 1)
-    let s = 4n;
+    const m = (one << q) - one; // (2 ** p - 1)
+    let s = BigInt(4);
 
     /*
      * Based on:
@@ -732,8 +734,8 @@ function lucasLehmer(p) {
      *
      */
 
-    for(p = p - 2; p > 0; --p) {
-        s = s * s - 2n;
+    for (p -= 2; p > 0; --p) {
+        s = s * s - two;
         s = (s & m) + (s >> q);
         if (s >= m) {
             s -= m;
@@ -778,13 +780,14 @@ function reverse(n) {
      * https://www.mathblog.dk/project-euler-36-palindromic-base-10-2/
      */
 
-    const base = 10n; // radix of a number system
+    const zero = BigInt(0);
+    const base = BigInt(10); // radix of a number system
     let num = BigInt(n);
-    let reversed = 0n;
+    let reversed = zero;
 
-    while (num > 0n) {
+    while (num > zero) {
         reversed = reversed * base + (num % base);
-        num = (num / base) >> 0n;
+        num = (num / base) >> zero;
     }
 
     return reversed;

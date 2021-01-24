@@ -343,12 +343,14 @@ function sumFactorialDigits(n) {
     if (n === 0) return 1;
     if (n < 3) return n;
 
+    const one = BigInt(1);
+    const ten = BigInt(10);
     let factorial = BigInt(n);
     let i = BigInt(n - 1);
 
-    for (i; i > 1n; --i) {
+    for (i; i > one; --i) {
         factorial *= i;
-        while (!(factorial % 10n)) factorial /= 10n; // truncate trailing zeros
+        while (!(factorial % ten)) factorial /= ten; // truncate trailing zeros
     }
 
     return Uint8Array.from(factorial.toString())
